@@ -55,6 +55,8 @@
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--gold);
+      text-align: center;
+      margin-bottom: 10px;
     }
 
     p {
@@ -361,7 +363,6 @@
   let username = "Agent Bio";
   let currentQuestion = 0;
   let cluesCollected = {};
-  let hasSolvedFinalRiddle = false;
 
   const questionsData = [
     {
@@ -570,14 +571,11 @@
     const validLength = words >= 10 && words <= 75;
 
     if (mathCorrect && hasKeywords && validLength) {
-      hasSolvedFinalRiddle = true;
-
-      // UPDATE SOLVERS LIST DYNAMICALLY
+      // DYNAMICALLY ADD USERNAME TO SOLVERS LIST UPON SOLVING
       const list = document.getElementById('solversList');
       const emptyMsg = document.getElementById('emptySolversMsg');
       if (emptyMsg) emptyMsg.remove();
 
-      // Check if already added to avoid duplicates
       if (!document.getElementById('solver-' + username)) {
         const newEntry = document.createElement('div');
         newEntry.className = 'solver-item';
