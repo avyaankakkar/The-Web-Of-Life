@@ -130,7 +130,7 @@
 
             <div class="flex justify-center pt-4">
                 <button onclick="startNotebookStory()" class="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-black font-bold px-8 py-3 rounded-xl shadow-lg hover:shadow-amber-500/20 transition transform hover:-translate-y-0.5">
-                    Open Notebook 📓
+                    Open Unknown Suspect's Notebook 📓
                 </button>
             </div>
         </section>
@@ -139,7 +139,7 @@
         <section id="screen-notebook-intro" class="hidden fade-in">
             <div class="bg-detective-card border border-amber-500/30 rounded-xl p-6 sm:p-8 space-y-6">
                 <div class="border-b border-detective-border pb-4">
-                    <h2 class="text-xl font-bold text-amber-400">Notebook Page 1: Letter from Suspect</h2>
+                    <h2 class="text-xl font-bold text-amber-400">Notebook Page 1: Letter from "???"</h2>
                     <p class="text-xs text-gray-400 font-mono mt-1">Found at crime scene • Evidence #001</p>
                 </div>
 
@@ -151,7 +151,7 @@
                         <li>If correct: You earn a clean, uncorrupted clue to my identity.</li>
                         <li>If incorrect: The clue will be permanently corrupted into scrambled code.</li>
                     </ul>
-                    <p class="text-right text-amber-400 font-bold pt-2">— Signed by Culprit</p>
+                    <p class="text-right text-amber-400 font-bold pt-2">— Signed by ???</p>
                 </div>
 
                 <div class="flex justify-end gap-3 pt-2">
@@ -202,7 +202,7 @@
                     <div class="inline-block px-3 py-1 rounded-full bg-red-500/10 text-red-400 border border-red-500/30 text-xs font-semibold uppercase tracking-wider mb-2">
                         Final Stage • Practical Deduction
                     </div>
-                    <h2 class="text-2xl font-bold text-amber-400">The Bioaccumulation Challenge</h2>
+                    <h2 class="text-2xl font-bold text-amber-400">The Bioaccumulation Challenge 🙃</h2>
                     <p class="text-gray-300 text-sm mt-2 leading-relaxed">
                         Industrial runoff introduces a persistent toxin (PCB) at <strong>0.02 ppm</strong>.<br>
                         Algae absorbs it reaching <strong>0.05 ppm</strong>. It multiplies by 10 across 3 trophic steps:<br>
@@ -286,13 +286,13 @@
                     <h2 class="text-3xl font-bold text-white">Congratulations, Agent Bio!</h2>
                 </div>
                 <p class="text-amber-200 text-lg leading-relaxed">
-                    You successfully solved Case File #BIO-101 and restored order to the ecosystem!
+                    You slap the handcuffs on <strong class="text-amber-400">Archie Microbus</strong>!
                 </p>
                 <div class="bg-black/40 border border-amber-500/30 p-4 rounded-xl text-sm text-gray-300 font-mono">
-                    "Your ecological deduction skills have proven top-notch. Case closed successfully."
+                    "The Impenetrable Wall couldn't stand up against your ecological deduction. You have proven yourself once again as the top detective in the world."
                 </div>
                 <button onclick="resetGame()" class="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-3 rounded-xl transition shadow-lg">
-                    🔄 Play Again
+                    🔄 Solve Another Case
                 </button>
             </div>
         </section>
@@ -422,7 +422,9 @@
 
         // Intro dialogue steps
         const introSteps = [
-            "Case File #BIO-101 opened. Review the evidence and suspects below."
+            "Welcome, Agent Bio. A severe ecological disturbance has corrupted the delicate balance of the IB Grade 6 ecosystem.",
+            "Industrial pollutants and scrambled energy pathways threaten every trophic level. Six prime suspects have been detained for questioning.",
+            "Inspect their profiles, examine the crime scene notebook, and use your IB biodiversity knowledge to identify the true mastermind before time runs out."
         ];
 
         function initGame() {
