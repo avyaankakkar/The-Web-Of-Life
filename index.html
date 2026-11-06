@@ -39,6 +39,8 @@
             font-family: 'Inter', sans-serif;
             background-color: #0a0d14;
             color: #f3f4f6;
+            overflow-y: auto;
+            min-height: 100vh;
         }
         .glitch-text {
             font-family: 'Courier New', monospace;
@@ -128,7 +130,7 @@
 
             <div class="flex justify-center pt-4">
                 <button onclick="startNotebookStory()" class="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-black font-bold px-8 py-3 rounded-xl shadow-lg hover:shadow-amber-500/20 transition transform hover:-translate-y-0.5">
-                    Open Unknown Suspect's Notebook 📓
+                    Open Notebook 📓
                 </button>
             </div>
         </section>
@@ -137,7 +139,7 @@
         <section id="screen-notebook-intro" class="hidden fade-in">
             <div class="bg-detective-card border border-amber-500/30 rounded-xl p-6 sm:p-8 space-y-6">
                 <div class="border-b border-detective-border pb-4">
-                    <h2 class="text-xl font-bold text-amber-400">Notebook Page 1: Letter from "???"</h2>
+                    <h2 class="text-xl font-bold text-amber-400">Notebook Page 1: Letter from Suspect</h2>
                     <p class="text-xs text-gray-400 font-mono mt-1">Found at crime scene • Evidence #001</p>
                 </div>
 
@@ -149,7 +151,7 @@
                         <li>If correct: You earn a clean, uncorrupted clue to my identity.</li>
                         <li>If incorrect: The clue will be permanently corrupted into scrambled code.</li>
                     </ul>
-                    <p class="text-right text-amber-400 font-bold pt-2">— Signed by ???</p>
+                    <p class="text-right text-amber-400 font-bold pt-2">— Signed by Culprit</p>
                 </div>
 
                 <div class="flex justify-end gap-3 pt-2">
@@ -200,7 +202,7 @@
                     <div class="inline-block px-3 py-1 rounded-full bg-red-500/10 text-red-400 border border-red-500/30 text-xs font-semibold uppercase tracking-wider mb-2">
                         Final Stage • Practical Deduction
                     </div>
-                    <h2 class="text-2xl font-bold text-amber-400">The Bioaccumulation Challenge 🙃</h2>
+                    <h2 class="text-2xl font-bold text-amber-400">The Bioaccumulation Challenge</h2>
                     <p class="text-gray-300 text-sm mt-2 leading-relaxed">
                         Industrial runoff introduces a persistent toxin (PCB) at <strong>0.02 ppm</strong>.<br>
                         Algae absorbs it reaching <strong>0.05 ppm</strong>. It multiplies by 10 across 3 trophic steps:<br>
@@ -284,13 +286,13 @@
                     <h2 class="text-3xl font-bold text-white">Congratulations, Agent Bio!</h2>
                 </div>
                 <p class="text-amber-200 text-lg leading-relaxed">
-                    You slap the handcuffs on <strong class="text-amber-400">Archie Microbus</strong>!
+                    You successfully solved Case File #BIO-101 and restored order to the ecosystem!
                 </p>
                 <div class="bg-black/40 border border-amber-500/30 p-4 rounded-xl text-sm text-gray-300 font-mono">
-                    "The Impenetrable Wall couldn't stand up against your ecological deduction. You have proven yourself once again as the top detective in the world."
+                    "Your ecological deduction skills have proven top-notch. Case closed successfully."
                 </div>
                 <button onclick="resetGame()" class="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-3 rounded-xl transition shadow-lg">
-                    🔄 Solve Another Case
+                    🔄 Play Again
                 </button>
             </div>
         </section>
@@ -300,4 +302,394 @@
             <div class="max-w-xl mx-auto bg-gradient-to-b from-red-950/40 to-detective-card border border-red-500/50 rounded-2xl p-8 space-y-6 shadow-2xl">
                 <div class="text-6xl">❌</div>
                 <div class="space-y-2">
-                    <span class="text-xs font-mono tracking-widest text-red-400 uppercase">Mistaken Identity
+                    <span class="text-xs font-mono tracking-widest text-red-400 uppercase">Mistaken Identity</span>
+                    <h2 class="text-3xl font-bold text-white">Wrong Suspect!</h2>
+                </div>
+                <p class="text-red-200 text-sm leading-relaxed">
+                    That wasn't the mastermind behind the ecological imbalance. Review your clues and try again!
+                </p>
+                <button onclick="resetGame()" class="bg-red-600 hover:bg-red-500 text-white font-bold px-8 py-3 rounded-xl transition shadow-lg">
+                    🔄 Try Again
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-detective-border bg-detective-card/50 py-4 text-center text-xs text-gray-500 font-mono">
+        The Web of Life • IB Grade 6 Interactive Detective Game
+    </footer>
+
+    <!-- NOTEBOOK MODAL -->
+    <div id="notebookModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-detective-card border border-amber-500/40 rounded-xl max-w-lg w-full p-6 space-y-4 max-h-[80vh] flex flex-col shadow-2xl">
+            <div class="flex justify-between items-center border-b border-detective-border pb-3">
+                <h3 class="font-bold text-amber-400 flex items-center gap-2">📖 Detective Notebook</h3>
+                <button onclick="closeNotebookModal()" class="text-gray-400 hover:text-white font-bold px-2 py-1">✕</button>
+            </div>
+            <div id="modalNotebookContent" class="space-y-3 overflow-y-auto pr-2 font-mono text-sm text-gray-300">
+                <!-- Clues populated dynamically -->
+            </div>
+            <div class="pt-2 border-t border-detective-border text-right">
+                <button onclick="closeNotebookModal()" class="bg-amber-500 hover:bg-amber-400 text-black font-bold px-4 py-2 rounded-lg text-xs">Close Notebook</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT GAME ENGINE -->
+    <script>
+        // Suspects Data
+        const suspects = [
+            { id: "flora", title: "Master of Flora", name: "Flora Green", kingdom: "Plantae", trait: "Produces autotrophic energy via chloroplasts", img: "🌿", desc: "Always found basking in sunlight near primary producer zones." },
+            { id: "myco", title: "Lord of Mycology", name: "Myco Spore", kingdom: "Fungi", trait: "External heterotrophic digestion via hyphae", img: "🍄", desc: "Expert decomposer operating silently in dark forest understories." },
+            { id: "fauna", title: "Baron of Fauna", name: "Fauna Beast", kingdom: "Animalia", trait: "Ingestive heterotroph with sensory nervous system", img: "🐺", desc: "Apex predator tracking movement across forest tiers." },
+            { id: "proto", title: "Duke of Protists", name: "Proto Amoeba", kingdom: "Protista", trait: "Unicellular eukaryotic organism with diverse modes", img: "🦠", desc: "Microscopic shape-shifter thriving in aquatic micro-habitats." },
+            { id: "bact", title: "Count of Monera", name: "Bact Gene", kingdom: "Monera / Bacteria", trait: "Prokaryotic cell structure lacking nucleus", img: "🧫", desc: "Invisible nutrient recycler driving elemental biogeochemical cycles." },
+            { id: "arch", title: "Master of Diversion", name: "Archie Microbus", kingdom: "Archaea", trait: "Extremophile prokaryote surviving extreme thermal vents", img: "⚡", desc: "Mastermind operating in extreme conditions out of reach." }
+        ];
+
+        // 10 Questions Data
+        const questions = [
+            {
+                prompt: "Which kingdom includes multicellular organisms that perform photosynthesis using chlorophyll?",
+                options: ["Plantae", "Fungi", "Animalia", "Protista"],
+                answer: 0,
+                clue: "Clue #1: The mastermind operates outside traditional forest canopies."
+            },
+            {
+                prompt: "What is the primary role of decomposers like Fungi in an ecosystem's food web?",
+                options: ["Consuming apex predators", "Recycling nutrients back into the soil", "Generating glucose via sunlight", "Filtering heavy metals from water"],
+                answer: 1,
+                clue: "Clue #2: Their cellular structure lacks a defined membrane-bound nucleus."
+            },
+            {
+                prompt: "In a stable energy pyramid, about what percentage of energy is passed from one trophic level to the next?",
+                options: ["1%", "10%", "50%", "90%"],
+                answer: 1,
+                clue: "Clue #3: They thrive in extreme environments such as hydrothermal vents."
+            },
+            {
+                prompt: "Which term describes a close, long-term biological interaction between two different biological species?",
+                options: ["Biomagnification", "Symbiosis", "Transpiration", "Sedimentation"],
+                answer: 1,
+                clue: "Clue #4: Their metabolic pathways utilize unique non-peptidoglycan cell walls."
+            },
+            {
+                prompt: "What distinguishes eukaryotic cells from prokaryotic cells?",
+                options: ["Presence of ribosomes", "Presence of a true nucleus", "Ability to undergo cell division", "Having a cell membrane"],
+                answer: 1,
+                clue: "Clue #5: They do not possess mitochondria or chloroplasts."
+            },
+            {
+                prompt: "Which organism represents a primary consumer in a standard temperate forest food web?",
+                options: ["Hawk", "Caterpillar", "Oak Tree", "Red Fox"],
+                answer: 1,
+                clue: "Clue #6: Their lineage split very early in evolutionary history from bacteria."
+            },
+            {
+                prompt: "What is the primary consequence of biological magnification (biomagnification) of toxins?",
+                options: ["Toxins dilute as they move up trophic levels", "Top predators accumulate the highest toxin concentrations", "Producers absorb all the heavy metals", "Decomposers neutralize synthetic pollutants instantly"],
+                answer: 1,
+                clue: "Clue #7: The culprit's title is 'Master of Diversion'."
+            },
+            {
+                prompt: "Which trophic level supports the largest total biomass in a healthy ecosystem?",
+                options: ["Tertiary consumers", "Secondary consumers", "Primary consumers", "Primary producers"],
+                answer: 3,
+                clue: "Clue #8: Their full suspect name is Archie Microbus."
+            },
+            {
+                prompt: "Which gas is removed from the atmosphere during photosynthesis by autotrophs?",
+                options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Methane"],
+                answer: 1,
+                clue: "Clue #9: They belong to the domain Archaea."
+            },
+            {
+                prompt: "What role do nitrogen-fixing bacteria play in the soil?",
+                options: ["Convert atmospheric nitrogen into usable nitrates for plants", "Absorb all soil moisture during droughts", "Consume beneficial earthworms", "Produce oxygen gas underground"],
+                answer: 0,
+                clue: "Clue #10: The final suspect match is verified as Archie Microbus!"
+            }
+        ];
+
+        // Game State
+        let currentScreen = 'intro';
+        let introStep = 0;
+        let currentQIndex = 0;
+        let notebookClues = [];
+        let selectedAccusationSuspect = null;
+
+        // Intro dialogue steps
+        const introSteps = [
+            "Welcome, Agent Bio. A severe ecological disturbance has corrupted the delicate balance of the IB Grade 6 ecosystem.",
+            "Industrial pollutants and scrambled energy pathways threaten every trophic level. Six prime suspects have been detained for questioning.",
+            "Inspect their profiles, examine the crime scene notebook, and use your IB biodiversity knowledge to identify the true mastermind before time runs out."
+        ];
+
+        function initGame() {
+            renderSuspects();
+            renderIntro();
+            setupBioTextarea();
+        }
+
+        function renderIntro() {
+            const dialogueEl = document.getElementById('intro-dialogue');
+            const controlsEl = document.getElementById('intro-controls');
+            
+            dialogueEl.innerHTML = `<p class="fade-in">"${introSteps[introStep]}"</p>`;
+            
+            if (introStep < introSteps.length - 1) {
+                controlsEl.innerHTML = `
+                    <button onclick="nextIntroStep()" class="bg-amber-500 hover:bg-amber-400 text-black font-bold px-6 py-2.5 rounded-lg transition shadow">
+                        Continue ➡️
+                    </button>
+                `;
+            } else {
+                controlsEl.innerHTML = `
+                    <button onclick="goToScreen('screen-suspects')" class="bg-amber-500 hover:bg-amber-400 text-black font-bold px-6 py-2.5 rounded-lg transition shadow">
+                        Inspect Suspect Lineup 🔍
+                    </button>
+                `;
+            }
+        }
+
+        function nextIntroStep() {
+            if (introStep < introSteps.length - 1) {
+                introStep++;
+                renderIntro();
+            }
+        }
+
+        function goToScreen(screenId) {
+            document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(screenId).classList.remove('hidden');
+            currentScreen = screenId;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (screenId === 'screen-questions') {
+                renderQuestion();
+            } else if (screenId === 'screen-accusation') {
+                renderAccusationSuspects();
+                document.getElementById('final-clue-count').innerText = notebookClues.filter(c => !c.corrupted).length;
+            }
+        }
+
+        function renderSuspects() {
+            const grid = document.getElementById('suspects-grid');
+            grid.innerHTML = suspects.map(s => `
+                <div class="bg-detective-card border border-detective-border rounded-xl p-5 space-y-3 hover:border-amber-500/50 transition">
+                    <div class="flex items-center gap-3">
+                        <div class="text-3xl bg-black/40 p-2.5 rounded-lg border border-detective-border">${s.img}</div>
+                        <div>
+                            <span class="text-xs font-mono text-amber-400 uppercase tracking-wider">${s.title}</span>
+                            <h3 class="font-bold text-gray-100">${s.name}</h3>
+                        </div>
+                    </div>
+                    <div class="text-xs font-mono text-gray-400 space-y-1">
+                        <p><strong class="text-gray-300">Kingdom:</strong> ${s.kingdom}</p>
+                        <p><strong class="text-gray-300">Key Trait:</strong> ${s.trait}</p>
+                    </div>
+                    <p class="text-xs text-gray-400 italic pt-1 border-t border-detective-border">"${s.desc}"</p>
+                </div>
+            `).join('');
+        }
+
+        function startNotebookStory() {
+            goToScreen('screen-notebook-intro');
+        }
+
+        function startQuestions() {
+            currentQIndex = 0;
+            notebookClues = [];
+            document.getElementById('notebookBtn').classList.remove('hidden');
+            goToScreen('screen-questions');
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQIndex];
+            document.getElementById('q-num').innerText = currentQIndex + 1;
+            document.getElementById('q-progress').style.width = `${((currentQIndex + 1) / 10) * 100}%`;
+            document.getElementById('q-prompt').innerText = q.prompt;
+
+            const optionsContainer = document.getElementById('q-options');
+            optionsContainer.innerHTML = q.options.map((opt, idx) => `
+                <button onclick="selectOption(${idx})" class="option-btn text-left w-full bg-black/40 hover:bg-amber-500/10 border border-detective-border hover:border-amber-500/50 p-4 rounded-xl text-gray-200 transition font-medium text-sm flex items-center justify-between">
+                    <span>${opt}</span>
+                    <span class="text-xs font-mono text-gray-500">Option ${String.fromCharCode(65 + idx)}</span>
+                </button>
+            `).join('');
+
+            document.getElementById('q-result').classList.add('hidden');
+            document.getElementById('q-next-container').classList.add('hidden');
+        }
+
+        function selectOption(selectedIndex) {
+            const q = questions[currentQIndex];
+            const isCorrect = selectedIndex === q.answer;
+            const resultBox = document.getElementById('q-result');
+            
+            // Disable option buttons
+            document.querySelectorAll('.option-btn').forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === q.answer) {
+                    btn.classList.add('bg-green-500/20', 'border-green-500', 'text-green-300');
+                } else if (idx === selectedIndex && !isCorrect) {
+                    btn.classList.add('bg-red-500/20', 'border-red-500', 'text-red-300');
+                } else {
+                    btn.classList.add('opacity-40');
+                }
+            });
+
+            let clueText = q.clue;
+            let corrupted = false;
+            if (!isCorrect) {
+                corrupted = true;
+                clueText = "⚠️ CORRUPTED DATA: [ █▓▒░ ERROR 0x99 CORRUPTED CLUE ░▒▓█ ]";
+            }
+
+            notebookClues.push({
+                qNum: currentQIndex + 1,
+                clue: clueText,
+                corrupted: corrupted
+            });
+            document.getElementById('clueCount').innerText = notebookClues.length;
+
+            resultBox.className = `rounded-lg p-5 border fade-in space-y-2 ${isCorrect ? 'bg-green-950/30 border-green-500/50 text-green-200' : 'bg-red-950/30 border-red-500/50 text-red-200'}`;
+            resultBox.innerHTML = `
+                <div class="flex items-center gap-2 font-bold">
+                    <span>${isCorrect ? '✅ Correct Deduction!' : '❌ Incorrect Deduction!'}</span>
+                </div>
+                <p class="text-sm font-mono">${clueText}</p>
+            `;
+            resultBox.classList.remove('hidden');
+            document.getElementById('q-next-container').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQIndex++;
+            if (currentQIndex < questions.length) {
+                renderQuestion();
+            } else {
+                goToScreen('screen-bioaccumulation');
+            }
+        }
+
+        function setupBioTextarea() {
+            const textarea = document.getElementById('bio-exp-input');
+            const badge = document.getElementById('word-count-badge');
+            textarea.addEventListener('input', () => {
+                const words = textarea.value.trim() ? textarea.value.trim().split(/\s+/).length : 0;
+                badge.innerText = `${words} / 75 words`;
+                if (words > 75) {
+                    badge.classList.add('text-red-400');
+                } else {
+                    badge.classList.remove('text-red-400');
+                }
+            });
+        }
+
+        function evaluateBioChallenge() {
+            const ppmInput = parseFloat(document.getElementById('bio-ppm-input').value);
+            const expText = document.getElementById('bio-exp-input').value.trim();
+            const wordCount = expText ? expText.split(/\s+/).length : 0;
+            const resultBox = document.getElementById('bio-result');
+
+            // Correct ppm math: 0.05 * 10 * 10 * 10 = 50.0 ppm
+            const isPpmCorrect = !isNaN(ppmInput) && Math.abs(ppmInput - 50.0) < 0.1;
+            const isLengthValid = wordCount >= 10 && wordCount <= 75;
+
+            resultBox.classList.remove('hidden');
+            if (isPpmCorrect && isLengthValid) {
+                resultBox.className = "rounded-lg p-4 border fade-in bg-green-950/30 border-green-500/50 text-green-200 space-y-2";
+                resultBox.innerHTML = `
+                    <h4 class="font-bold flex items-center gap-2">✅ Challenge Passed Successfully!</h4>
+                    <p class="text-sm">Your calculation of 50.0 ppm and explanation of biomagnification meets all IB standards. Proceeding to final accusation phase...</p>
+                    <div class="pt-2">
+                        <button onclick="goToScreen('screen-accusation')" class="bg-green-600 hover:bg-green-500 text-white font-bold px-5 py-2 rounded-lg text-sm">Proceed to Final Accusation ➡️</button>
+                    </div>
+                `;
+            } else {
+                resultBox.className = "rounded-lg p-4 border fade-in bg-red-950/30 border-red-500/50 text-red-200 space-y-2";
+                let errs = [];
+                if (!isPpmCorrect) errs.push("Incorrect toxic concentration calculation (Hint: Algae 0.05 multiplied by 10 three times).");
+                if (!isLengthValid) errs.push(`Word count is ${wordCount} words. Must be between 10 and 75 words.`);
+                resultBox.innerHTML = `
+                    <h4 class="font-bold flex items-center gap-2">❌ Evaluation Failed</h4>
+                    <ul class="list-disc list-inside text-sm space-y-1">
+                        ${errs.map(e => `<li>${e}</li>`).join('')}
+                    </ul>
+                `;
+            }
+        }
+
+        function renderAccusationSuspects() {
+            const list = document.getElementById('accusation-suspects-list');
+            list.innerHTML = suspects.map(s => `
+                <div onclick="selectAccusation('${s.id}')" id="suspect-card-${s.id}" class="accusation-card cursor-pointer bg-black/40 border border-detective-border rounded-xl p-4 flex items-center gap-4 hover:border-amber-500/50 transition">
+                    <div class="text-3xl bg-detective-card p-2.5 rounded-lg border border-detective-border">${s.img}</div>
+                    <div>
+                        <span class="text-xs font-mono text-amber-400">${s.title}</span>
+                        <h4 class="font-bold text-gray-100">${s.name}</h4>
+                        <p class="text-xs text-gray-400 font-mono">Kingdom: ${s.kingdom}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectAccusation(id) {
+            selectedAccusationSuspect = id;
+            document.querySelectorAll('.accusation-card').forEach(card => {
+                card.classList.remove('border-amber-500', 'bg-amber-500/10');
+            });
+            document.getElementById(`suspect-card-${id}`).classList.add('border-amber-500', 'bg-amber-500/10');
+            
+            const arrestBtn = document.getElementById('arrest-btn');
+            arrestBtn.disabled = false;
+            arrestBtn.className = "bg-amber-500 hover:bg-amber-400 text-black font-bold px-10 py-3.5 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 cursor-pointer";
+        }
+
+        function makeFinalAccusation() {
+            if (selectedAccusationSuspect === 'arch') {
+                goToScreen('screen-victory');
+            } else {
+                goToScreen('screen-gameover');
+            }
+        }
+
+        function openNotebookModal() {
+            const content = document.getElementById('modalNotebookContent');
+            if (notebookClues.length === 0) {
+                content.innerHTML = `<p class="text-gray-500 italic">No clues collected yet. Start the notebook riddle sequence to collect evidence.</p>`;
+            } else {
+                content.innerHTML = notebookClues.map(c => `
+                    <div class="p-3 rounded bg-black/40 border border-detective-border space-y-1">
+                        <span class="text-xs font-bold text-amber-400">Riddle #${c.qNum}</span>
+                        <p class="${c.corrupted ? 'text-red-400 font-bold' : 'text-gray-200'}">${c.clue}</p>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('notebookModal').classList.remove('hidden');
+        }
+
+        function closeNotebookModal() {
+            document.getElementById('notebookModal').classList.add('hidden');
+        }
+
+        function resetGame() {
+            introStep = 0;
+            currentQIndex = 0;
+            notebookClues = [];
+            selectedAccusationSuspect = null;
+            document.getElementById('notebookBtn').classList.add('hidden');
+            document.getElementById('bio-ppm-input').value = '';
+            document.getElementById('bio-exp-input').value = '';
+            document.getElementById('bio-result').classList.add('hidden');
+            goToScreen('screen-intro');
+            renderIntro();
+        }
+
+        window.onload = initGame;
+    </script>
+</body>
+</html>
