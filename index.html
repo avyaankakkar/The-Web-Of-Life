@@ -200,6 +200,7 @@
       padding: 20px;
       border-radius: 12px;
       margin: 20px 0;
+      min-height: 90px;
     }
 
     .solver-item {
@@ -209,6 +210,13 @@
       border-bottom: 1px solid #334155;
       color: var(--gold);
       font-weight: bold;
+    }
+
+    .empty-solvers {
+      color: var(--text-muted);
+      text-align: center;
+      font-style: italic;
+      padding: 10px 0;
     }
 
     .hidden {
@@ -280,8 +288,7 @@
     <p class="subtitle">People who have solved the last riddle</p>
     
     <div class="hall-of-fame" id="solversList">
-      <div class="solver-item"><span>1. Agent Bio (Master Detective)</span><span>RANK #1</span></div>
-      <div class="solver-item"><span>2. Dr. Linnaeus</span><span>RANK #2</span></div>
+      <div id="emptySolversMsg" class="empty-solvers">No detectives have solved the final riddle yet... Will you be the first?</div>
     </div>
 
     <button class="btn btn-gold" id="solverStartBtn" onclick="startQuiz()">Start Solving the Riddles</button>
@@ -354,6 +361,7 @@
   let username = "Agent Bio";
   let currentQuestion = 0;
   let cluesCollected = {};
+  let hasSolvedFinalRiddle = false;
 
   const questionsData = [
     {
@@ -562,12 +570,21 @@
     const validLength = words >= 10 && words <= 75;
 
     if (mathCorrect && hasKeywords && validLength) {
-      // ADD USERNAME TO SOLVERS LIST IMMEDIATELY UPON SOLVING THE ULTRA-HARD RIDDLE
+      hasSolvedFinalRiddle = true;
+
+      // UPDATE SOLVERS LIST DYNAMICALLY
       const list = document.getElementById('solversList');
-      const newEntry = document.createElement('div');
-      newEntry.className = 'solver-item';
-      newEntry.innerHTML = `<span>3. ${username} (Master Bio-Deduction Expert)</span><span>NEW MASTER</span>`;
-      list.appendChild(newEntry);
+      const emptyMsg = document.getElementById('emptySolversMsg');
+      if (emptyMsg) emptyMsg.remove();
+
+      // Check if already added to avoid duplicates
+      if (!document.getElementById('solver-' + username)) {
+        const newEntry = document.createElement('div');
+        newEntry.className = 'solver-item';
+        newEntry.id = 'solver-' + username;
+        newEntry.innerHTML = `<span>1. ${username} (Master Bio-Deduction Expert)</span><span>SOLVER</span>`;
+        list.appendChild(newEntry);
+      }
 
       // Transition to Solvers of the Impossible page before Accusation
       document.getElementById('solverStartBtn').innerText = "Proceed to Accusation Phase";
