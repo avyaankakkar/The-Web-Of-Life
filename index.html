@@ -1,641 +1,1011 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>THE WEB OF LIFE - Detective Mystery</title>
-  <style>
-    :root {
-      --bg-dark: #0f172a;
-      --card-bg: #1e293b;
-      --accent: #10b981;
-      --accent-hover: #059669;
-      --gold: #f59e0b;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --danger: #ef4444;
-      --corrupted: #f43f5e;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE WEB OF LIFE - Agent Bio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN for Detective & Biology Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        noir: {
+                            900: '#0B0D11',
+                            800: '#131720',
+                            700: '#1D2330',
+                            600: '#2A3346',
+                        },
+                        amberGold: '#E6B800',
+                        emeraldBio: '#10B981',
+                        crimsonAlert: '#EF4444',
+                        parchment: '#F5E6CA'
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        courier: ['"Courier Prime"', 'monospace'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131720;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2A3346;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E6B800;
+        }
+        
+        .corrupted-text {
+            font-family: 'Courier Prime', monospace;
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px dashed #ef4444;
+            text-shadow: 0 0 4px rgba(239, 68, 68, 0.6);
+        }
+        
+        .clean-clue {
+            font-family: 'Courier Prime', monospace;
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            text-shadow: 0 0 4px rgba(16, 185, 129, 0.4);
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 800px;
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 32px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-      border: 1px solid #334155;
-    }
-
-    h1, h2, h3 {
-      text-align: center;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-
-    .title-large {
-      font-size: 2.2rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--gold);
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    p {
-      line-height: 1.6;
-      margin-bottom: 16px;
-      color: var(--text);
-    }
-
-    .subtitle {
-      text-align: center;
-      color: var(--text-muted);
-      font-style: italic;
-      margin-bottom: 24px;
-    }
-
-    .input-group {
-      margin: 20px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    label {
-      font-weight: bold;
-      color: var(--accent);
-    }
-
-    input[type="text"], input[type="number"], textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #475569;
-      background: #0f172a;
-      color: #fff;
-      font-size: 1rem;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      margin-top: 16px;
-      text-align: center;
-    }
-
-    .btn:hover {
-      background: var(--accent-hover);
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .btn-gold {
-      background: var(--gold);
-      color: #0f172a;
-    }
-
-    .btn-gold:hover {
-      background: #d97706;
-    }
-
-    .suspect-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin: 20px 0;
-    }
-
-    .suspect-card {
-      background: #0f172a;
-      border: 1px solid #334155;
-      padding: 16px;
-      border-radius: 12px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s;
-    }
-
-    .suspect-card:hover {
-      border-color: var(--accent);
-    }
-
-    .suspect-card h4 {
-      color: var(--gold);
-      margin-bottom: 6px;
-    }
-
-    .options-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin: 20px 0;
-    }
-
-    .option-btn {
-      background: #0f172a;
-      border: 1px solid #334155;
-      padding: 14px;
-      border-radius: 8px;
-      color: var(--text);
-      text-align: left;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: all 0.2s;
-    }
-
-    .option-btn:hover {
-      border-color: var(--accent);
-      background: #1e293b;
-    }
-
-    .clue-box {
-      background: #0f172a;
-      border-left: 4px solid var(--accent);
-      padding: 16px;
-      border-radius: 0 8px 8px 0;
-      margin: 20px 0;
-      font-family: monospace;
-    }
-
-    .clue-corrupted {
-      border-left-color: var(--corrupted);
-      color: var(--corrupted);
-    }
-
-    .hall-of-fame {
-      background: #0f172a;
-      border: 1px dashed var(--gold);
-      padding: 20px;
-      border-radius: 12px;
-      margin: 20px 0;
-      min-height: 90px;
-    }
-
-    .solver-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid #334155;
-      color: var(--gold);
-      font-weight: bold;
-    }
-
-    .empty-solvers {
-      color: var(--text-muted);
-      text-align: center;
-      font-style: italic;
-      padding: 10px 0;
-    }
-
-    .hidden {
-      display: none;
-    }
-  </style>
+        .notebook-texture {
+            background-color: #1A1D24;
+            background-image: radial-gradient(#2A3346 1px, transparent 0);
+            background-size: 16px 16px;
+        }
+    </style>
 </head>
-<body>
-
-<div class="container">
-
-  <!-- STAGE 1: INTRO -->
-  <div id="stageIntro">
-    <h1 class="title-large">THE WEB OF LIFE</h1>
-    <p>You are Agent Bio, Lord of Deduction. There has been a hit and run case. Fortunately, the victim is fine, but the criminal is still on the loose. They erased all evidence, except a notebook with riddles. Our greatest detectives have tried solving them, but they failed. Now you are our only hope.</p>
+<body class="bg-noir-900 text-gray-200 font-sans min-h-screen flex flex-col justify-between selection:bg-amberGold selection:text-noir-900 overflow-x-hidden">
     
-    <div class="input-group">
-      <label for="usernameInput">Enter Detective Name:</label>
-      <input type="text" id="usernameInput" placeholder="Agent Bio" value="Agent Bio">
+    <!-- Top Navigation Header -->
+    <header class="border-b border-noir-700 bg-noir-800/90 backdrop-blur sticky top-0 z-40 px-4 py-3 shadow-lg">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-amberGold/10 border border-amberGold/40 flex items-center justify-center text-amberGold text-xl">
+                    <i class="fa-solid fa-magnifying-glass-chart"></i>
+                </div>
+                <div>
+                    <h1 class="font-cinzel text-lg md:text-xl font-bold tracking-wider text-amberGold">THE WEB OF LIFE</h1>
+                    <p class="text-xs text-gray-400 tracking-widest uppercase font-courier">Agent Bio • Case #8042</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2 md:gap-4">
+                <button id="openNotebookBtn" onclick="toggleNotebookModal()" class="hidden bg-noir-700 hover:bg-noir-600 border border-amberGold/30 text-amberGold px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <span class="hidden sm:inline">Case Notebook</span>
+                    <span id="clueBadgeCount" class="bg-amberGold text-noir-900 font-bold text-xs px-2 py-0.5 rounded-full">0/10</span>
+                </button>
+                <button onclick="confirmRestart()" class="bg-noir-700 hover:bg-crimsonAlert/20 hover:border-crimsonAlert/50 border border-noir-600 text-gray-400 hover:text-crimsonAlert px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-1">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span class="hidden sm:inline">Reset Timeline</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Game Container -->
+    <main class="flex-grow max-w-5xl w-full mx-auto p-4 md:p-6 my-4 flex flex-col justify-center">
+
+        <!-- STAGE 1: INTRO SEQUENCE -->
+        <section id="stageIntro" class="space-y-6">
+            <div class="bg-noir-800 border border-noir-700 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden space-y-6">
+                <div class="absolute -top-10 -right-10 text-noir-700 text-9xl opacity-40 pointer-events-none">
+                    <i class="fa-solid fa-dna"></i>
+                </div>
+                
+                <div class="relative z-10 space-y-4">
+                    <span class="inline-block px-3 py-1 bg-amberGold/10 border border-amberGold/30 text-amberGold font-courier text-xs uppercase tracking-widest rounded-full">
+                        Incoming Dispatch
+                    </span>
+                    <h2 class="font-cinzel text-3xl md:text-4xl font-extrabold text-white">THE WEB OF LIFE</h2>
+                    
+                    <p class="text-gray-300 leading-relaxed max-w-3xl text-base md:text-lg">
+                        You are Agent Bio, Lord of Deduction. There has been a hit and run case. Fortunately, the victim is fine, but the criminal is still on the loose. They erased all evidence, except a notebook with riddles. Our greatest detectives have tried solving them, but they failed. Now you are our only hope.
+                    </p>
+                </div>
+
+                <!-- Detective Username Input -->
+                <div class="bg-noir-900 border border-amberGold/30 p-4 rounded-xl max-w-md space-y-2">
+                    <label for="usernameInput" class="block text-xs font-courier uppercase text-amberGold font-bold">
+                        <i class="fa-solid fa-id-badge mr-1"></i> Enter Detective Username:
+                    </label>
+                    <input type="text" id="usernameInput" placeholder="Agent Bio" value="Agent Bio"
+                           class="w-full bg-noir-800 border border-noir-600 rounded-lg px-4 py-2 text-white font-courier focus:outline-none focus:border-amberGold transition text-sm">
+                </div>
+
+                <div class="pt-4 border-t border-noir-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3 text-sm text-gray-400">
+                        <i class="fa-solid fa-user-secret text-amberGold"></i>
+                        <span>6 Primary Suspects Under Surveillance</span>
+                    </div>
+                    <button onclick="goToSuspects()" class="w-full sm:w-auto bg-amberGold hover:bg-amber-400 text-noir-900 font-bold px-6 py-3 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                        <span>Examine Suspect Lineup</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- STAGE 2: SUSPECT SHOWCASE & NOTEBOOK WARNING -->
+        <section id="stageSuspects" class="hidden space-y-6">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-amberGold">PRIMARY SUSPECTS</h2>
+                <p class="text-gray-400 text-sm">Study their profiles carefully. Each riddle clue will reveal crucial identity details.</p>
+            </div>
+
+            <!-- 6 Suspect Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Suspect 1 -->
+                <div class="bg-noir-800 border border-noir-700 rounded-xl p-5 hover:border-amberGold/50 transition group space-y-3">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-full bg-blue-950/60 border border-blue-500/30 flex items-center justify-center text-blue-400 text-2xl">
+                            <i class="fa-solid fa-user-tie"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">James Animalia</h3>
+                            <p class="text-xs text-blue-400 font-courier">Human • "The Great Intelligence"</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">Top-tier strategist with supreme analytical mind, known for calculated ecological footprint.</p>
+                </div>
+
+                <!-- Suspect 2 -->
+                <div class="bg-noir-800 border border-noir-700 rounded-xl p-5 hover:border-amberGold/50 transition group space-y-3">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-full bg-purple-950/60 border border-purple-500/30 flex items-center justify-center text-purple-400 text-2xl">
+                            <i class="fa-solid fa-bacteria"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Amelia Protista</h3>
+                            <p class="text-xs text-purple-400 font-courier">Amoeba • "Queen Shape-Shifter"</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">Master of disguises capable of altering physical forms to blend into any aqueous habitat seamlessly.</p>
+                </div>
+
+                <!-- Suspect 3 -->
+                <div class="bg-noir-800 border border-noir-700 rounded-xl p-5 hover:border-amberGold/50 transition group space-y-3">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-full bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Lord Corpsuf Plantae</h3>
+                            <p class="text-xs text-emerald-400 font-courier">Corpse Flower • "Luxury Businessman"</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">High-society magnate heavily invested in rare flora, canopy real estate, and nutrient-rich soil.</p>
+                </div>
+
+                <!-- Suspect 4 -->
+                <div class="bg-noir-800 border border-noir-700 rounded-xl p-5 hover:border-amberGold/50 transition group space-y-3">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-full bg-red-950/60 border border-red-500/30 flex items-center justify-center text-red-400 text-2xl">
+                            <i class="fa-solid fa-disease"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Mossrim Fungi</h3>
+                            <p class="text-xs text-red-400 font-courier">Mushroom • "Dark Shadow"</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">Elusive shadow operative operating in damp understory log reserves and subterranean hyphal webs.</p>
+                </div>
+
+                <!-- Suspect 5 -->
+                <div class="bg-noir-800 border border-noir-700 rounded-xl p-5 hover:border-amberGold/50 transition group space-y-3">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-full bg-teal-950/60 border border-teal-500/30 flex items-center justify-center text-teal-400 text-2xl">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Archie Microbus</h3>
+                            <p class="text-xs text-teal-400 font-courier">Microbe • "Impenetrable Wall"</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">Microscopic powerhouse equipped with nearly unbreakable cellular defenses, unfazed by heavy obstacles.</p>
+                </div>
+
+                <!-- Suspect 6 -->
+                <div class="bg-noir-800 border border-noir-700 rounded-xl p-5 hover:border-amberGold/50 transition group space-y-3">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-full bg-amber-950/60 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl">
+                            <i class="fa-solid fa-virus"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Buster Bacteria</h3>
+                            <p class="text-xs text-amber-400 font-courier">Bacteria • "Master of Diversion"</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">Specialist in creating chaotic false leads, chemical blooms, and rapid population spikes.</p>
+                </div>
+            </div>
+
+            <!-- Notebook Warning Letter -->
+            <div class="bg-noir-800 border border-amberGold/30 rounded-2xl p-6 font-courier space-y-3 relative overflow-hidden">
+                <div class="flex items-center justify-between border-b border-noir-700 pb-3">
+                    <span class="text-amberGold text-sm font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-book-open"></i> Note Found Inside Notebook Cover
+                    </span>
+                    <span class="text-xs text-gray-500">Author Unknown</span>
+                </div>
+                <p class="text-gray-300 text-sm leading-relaxed">
+                    "I have put these riddles in my book, to tease whoever even thinks about solving them. However, if you dare try, follow these instructions: On the next page, you will see the first riddle. Click the correct option to receive a clue on my identity. However if you are wrong, the clue will be corrupted!"
+                </p>
+                <div class="text-right text-amberGold font-bold text-sm">— Signed by ???</div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button onclick="goToSolversPage()" class="bg-amberGold hover:bg-amber-400 text-noir-900 font-bold px-8 py-3 rounded-xl shadow-lg transition flex items-center gap-2">
+                    <span>Flip to Next Page</span>
+                    <i class="fa-solid fa-book-bookmark"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- STAGE 2.5: SOLVERS OF THE IMPOSSIBLE -->
+        <section id="stageSolvers" class="hidden space-y-6">
+            <div class="bg-noir-800 border border-amberGold/40 rounded-2xl p-6 md:p-8 shadow-2xl text-center space-y-6">
+                <div class="space-y-2">
+                    <span class="font-courier text-xs text-amberGold uppercase tracking-widest bg-amberGold/10 px-3 py-1 rounded-full border border-amberGold/30">
+                        Notebook Archives
+                    </span>
+                    <h2 class="font-cinzel text-3xl md:text-4xl font-extrabold text-white tracking-wide">
+                        SOLVERS OF THE IMPOSSIBLE
+                    </h2>
+                    <p class="text-gray-400 font-courier text-sm md:text-base">
+                        People who have solved the last riddle
+                    </p>
+                </div>
+
+                <!-- Hall of Fame List Container -->
+                <div class="bg-noir-900 border border-noir-700 rounded-xl p-6 max-w-lg mx-auto text-left space-y-3 font-courier">
+                    <div class="text-xs text-gray-500 uppercase tracking-wider border-b border-noir-700 pb-2 flex justify-between">
+                        <span>Detective Handle</span>
+                        <span>Status</span>
+                    </div>
+                    <div id="solversList" class="space-y-2 text-sm">
+                        <!-- Populated dynamically by JS -->
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button onclick="startRiddles()" class="bg-emeraldBio hover:bg-emerald-600 text-noir-900 font-bold px-8 py-3.5 rounded-xl shadow-xl transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 mx-auto">
+                        <i class="fa-solid fa-play"></i>
+                        <span>Start Solving the Riddles</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- STAGE 3: INTERACTIVE RIDDLE QUESTIONS -->
+        <section id="stageQuestions" class="hidden space-y-6">
+            <!-- Progress Bar -->
+            <div class="bg-noir-800 border border-noir-700 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <span class="font-courier text-xs uppercase tracking-widest text-amberGold bg-amberGold/10 px-3 py-1 rounded-full border border-amberGold/30">
+                        Riddle <span id="currentQuestionNum">1</span> of 10
+                    </span>
+                    <h3 class="font-cinzel font-bold text-white text-sm md:text-base hidden sm:block">Case Evidence Log</h3>
+                </div>
+                
+                <div class="w-full md:w-64 bg-noir-900 h-3 rounded-full overflow-hidden border border-noir-700">
+                    <div id="progressBar" class="bg-gradient-to-r from-amberGold to-emeraldBio h-full w-10 transition-all duration-500"></div>
+                </div>
+            </div>
+
+            <!-- Active Question Card -->
+            <div class="bg-noir-800 border border-noir-700 rounded-2xl p-6 md:p-8 shadow-2xl space-y-6 relative">
+                <div id="questionPrompt" class="text-gray-100 text-base md:text-lg font-medium leading-relaxed border-b border-noir-700 pb-5">
+                    <!-- Question text -->
+                </div>
+
+                <!-- 4 Options Container -->
+                <div id="optionsContainer" class="grid grid-cols-1 gap-3">
+                    <!-- Options -->
+                </div>
+
+                <!-- Feedback & Clue Display Box -->
+                <div id="feedbackBox" class="hidden rounded-xl p-5 space-y-3 transition">
+                    <div id="feedbackStatus" class="font-bold flex items-center gap-2"></div>
+                    <div id="feedbackClue" class="p-4 rounded-lg text-sm leading-relaxed"></div>
+                    <div class="flex justify-end pt-2">
+                        <button id="nextQuestionBtn" onclick="nextQuestion()" class="bg-amberGold hover:bg-amber-400 text-noir-900 font-bold px-6 py-2.5 rounded-lg shadow transition flex items-center gap-2">
+                            <span>Next Page</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STAGE 4: BIOACCUMULATION FINAL BOSS -->
+        <section id="stageFinalBoss" class="hidden space-y-6">
+            <div class="bg-noir-800 border border-amberGold/40 rounded-2xl p-6 md:p-8 shadow-2xl space-y-6 relative">
+                <div class="flex items-center gap-3 border-b border-noir-700 pb-4">
+                    <div class="w-12 h-12 rounded-xl bg-amberGold/10 border border-amberGold/30 flex items-center justify-center text-amberGold text-2xl">
+                        <i class="fa-solid fa-skull-crossbones"></i>
+                    </div>
+                    <div>
+                        <span class="font-courier text-xs text-amberGold uppercase tracking-widest">Final Challenge</span>
+                        <h2 class="font-cinzel text-2xl font-bold text-white">BIOACCUMULATION ANALYSIS</h2>
+                    </div>
+                </div>
+
+                <div class="bg-noir-900/80 border border-noir-700 p-5 rounded-xl space-y-3 font-courier text-xs md:text-sm text-gray-300">
+                    <p class="text-amberGold font-bold">Industrial runoff introduces a persistent toxin (PCB) at 0.02 ppm into the ecosystem.</p>
+                    <p>Algae absorbs it reaching 0.05 ppm. It multiplies by 10 across 3 trophic steps:</p>
+                    <div class="p-3 bg-noir-800 rounded-lg text-center text-emeraldBio font-bold">
+                        Algae (0.05 ppm) ➔ Zooplankton ➔ Small Fish ➔ Apex Pike
+                    </div>
+                </div>
+
+                <form id="bioForm" onsubmit="handleBioSubmit(event)" class="space-y-6">
+                    <!-- Question 1 -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-semibold text-gray-200">
+                            1. Calculate the exact toxic concentration (in ppm) at the Tertiary Consumer (Apex Pike) level:
+                        </label>
+                        <div class="relative max-w-xs">
+                            <input type="number" step="0.1" id="ppmInput" required placeholder="Enter ppm value..." 
+                                   class="w-full bg-noir-900 border border-noir-600 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-amberGold transition font-courier">
+                            <span class="absolute right-3 top-2.5 text-xs text-gray-400 font-courier">ppm</span>
+                        </div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <label class="block text-sm font-semibold text-gray-200">
+                                2. Explain why a low concentration harmless to algae causes reproductive failure in apex predators (Keep under 75 words):
+                            </label>
+                            <span id="wordCounter" class="text-xs font-courier text-gray-400">0 / 75 words</span>
+                        </div>
+                        <textarea id="explanationInput" rows="4" required oninput="updateWordCount()" placeholder="Type your ecological explanation..." 
+                                  class="w-full bg-noir-900 border border-noir-600 rounded-lg p-4 text-white focus:outline-none focus:border-amberGold transition text-sm leading-relaxed font-sans"></textarea>
+                    </div>
+
+                    <div id="bossResult" class="hidden rounded-xl p-4 font-courier text-sm"></div>
+
+                    <button type="submit" class="w-full bg-amberGold hover:bg-amber-400 text-noir-900 font-bold py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-calculator"></i>
+                        <span>Submit Bioaccumulation Evaluation</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- STAGE 5: ACCUSATION & FINAL SUSPECT SELECTION -->
+        <section id="stageAccusation" class="hidden space-y-6">
+            <div class="bg-noir-800 border border-noir-700 rounded-2xl p-6 md:p-8 shadow-2xl space-y-6">
+                <div class="text-center space-y-2">
+                    <span class="font-courier text-xs text-amberGold uppercase tracking-widest bg-amberGold/10 px-3 py-1 rounded-full border border-amberGold/30">Climax</span>
+                    <h2 class="font-cinzel text-3xl font-extrabold text-white">THE ACCUSATION LINEUP</h2>
+                    <p class="text-gray-400 text-sm max-w-xl mx-auto">
+                        Review your gathered notebook clues below before issuing an arrest warrant. Pick carefully!
+                    </p>
+                </div>
+
+                <!-- Notebook Quick Drawer Banner -->
+                <div class="bg-noir-900 border border-amberGold/30 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-book-open text-amberGold text-2xl"></i>
+                        <div>
+                            <h4 class="font-bold text-white text-sm">Case Notebook Evidence</h4>
+                            <p class="text-xs text-gray-400">Inspect gathered clean and corrupted clues anytime.</p>
+                        </div>
+                    </div>
+                    <button onclick="toggleNotebookModal()" class="w-full sm:w-auto bg-noir-700 hover:bg-noir-600 text-amberGold border border-amberGold/40 px-5 py-2.5 rounded-lg text-sm font-bold transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span>Review All Clues</span>
+                    </button>
+                </div>
+
+                <!-- 6 Suspect Options for Accusation -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Suspect 1 -->
+                    <button onclick="selectSuspect('1')" class="border border-noir-700 bg-noir-900 hover:border-amberGold/60 rounded-xl p-4 text-left transition group space-y-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-950 text-blue-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">1. James Animalia</h4>
+                                <span class="text-xs text-blue-400 font-courier">Human</span>
+                            </div>
+                        </div>
+                    </button>
+
+                    <!-- Suspect 2 -->
+                    <button onclick="selectSuspect('2')" class="border border-noir-700 bg-noir-900 hover:border-amberGold/60 rounded-xl p-4 text-left transition group space-y-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-purple-950 text-purple-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-bacteria"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">2. Amelia Protista</h4>
+                                <span class="text-xs text-purple-400 font-courier">Amoeba</span>
+                            </div>
+                        </div>
+                    </button>
+
+                    <!-- Suspect 3 -->
+                    <button onclick="selectSuspect('3')" class="border border-noir-700 bg-noir-900 hover:border-amberGold/60 rounded-xl p-4 text-left transition group space-y-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-emerald-950 text-emerald-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-seedling"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">3. Lord Corpsuf Plantae</h4>
+                                <span class="text-xs text-emerald-400 font-courier">Corpse Flower</span>
+                            </div>
+                        </div>
+                    </button>
+
+                    <!-- Suspect 4 -->
+                    <button onclick="selectSuspect('4')" class="border border-noir-700 bg-noir-900 hover:border-amberGold/60 rounded-xl p-4 text-left transition group space-y-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-red-950 text-red-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-disease"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">4. Mossrim Fungi</h4>
+                                <span class="text-xs text-red-400 font-courier">Mushroom</span>
+                            </div>
+                        </div>
+                    </button>
+
+                    <!-- Suspect 5 (CULPRIT) -->
+                    <button onclick="selectSuspect('5')" class="border border-noir-700 bg-noir-900 hover:border-amberGold/60 rounded-xl p-4 text-left transition group space-y-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-teal-950 text-teal-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">5. Archie Microbus</h4>
+                                <span class="text-xs text-teal-400 font-courier">Microbe</span>
+                            </div>
+                        </div>
+                    </button>
+
+                    <!-- Suspect 6 -->
+                    <button onclick="selectSuspect('6')" class="border border-noir-700 bg-noir-900 hover:border-amberGold/60 rounded-xl p-4 text-left transition group space-y-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-amber-950 text-amber-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-virus"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">6. Buster Bacteria</h4>
+                                <span class="text-xs text-amber-400 font-courier">Bacteria</span>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- STAGE 6: VERDICT OUTCOME SCREENS -->
+        <section id="stageVerdict" class="hidden space-y-6">
+            <!-- WINNING SCREEN -->
+            <div id="verdictWin" class="hidden bg-noir-800 border-2 border-emeraldBio rounded-2xl p-8 text-center space-y-6 shadow-2xl">
+                <div class="w-20 h-20 bg-emeraldBio/20 border border-emeraldBio text-emeraldBio rounded-full flex items-center justify-center text-4xl mx-auto shadow-lg shadow-emeraldBio/20">
+                    <i class="fa-solid fa-handcuffs"></i>
+                </div>
+                <div class="space-y-2">
+                    <span class="font-courier text-xs text-emeraldBio font-bold uppercase tracking-widest">Case Closed</span>
+                    <h2 class="font-cinzel text-3xl md:text-4xl font-extrabold text-white">CONGRATULATIONS!</h2>
+                    <p class="text-gray-300 max-w-xl mx-auto leading-relaxed">
+                        You slap the handcuffs on <strong class="text-teal-400">Archie Microbus</strong>! The Impenetrable Wall couldn't stand up against your ecological deduction. You have proved yourself once again that you are the best detective in the world.
+                    </p>
+                </div>
+                <div class="p-4 bg-noir-900 rounded-xl border border-noir-700 text-sm font-courier text-amberGold">
+                    🏆 Your username <span id="winnerDisplay" class="font-bold underline"></span> has been added to <strong>SOLVERS OF THE IMPOSSIBLE</strong>!
+                </div>
+                <button onclick="restartGame()" class="bg-emeraldBio hover:bg-emerald-600 text-noir-900 font-bold px-8 py-3 rounded-xl shadow-lg transition">
+                    Play Again
+                </button>
+            </div>
+
+            <!-- LOSING SCREEN (ANONYMOUS & TIME MACHINE) -->
+            <div id="verdictLose" class="hidden bg-noir-800 border-2 border-crimsonAlert rounded-2xl p-8 text-center space-y-6 shadow-2xl">
+                <div class="w-20 h-20 bg-crimsonAlert/20 border border-crimsonAlert text-crimsonAlert rounded-full flex items-center justify-center text-4xl mx-auto shadow-lg shadow-crimsonAlert/20">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="space-y-2">
+                    <span class="font-courier text-xs text-crimsonAlert font-bold uppercase tracking-widest">Warrant Error</span>
+                    <h2 class="font-cinzel text-3xl font-extrabold text-white">WRONG SUSPECT ARRESTED!</h2>
+                    <p class="text-gray-300 max-w-xl mx-auto leading-relaxed text-base">
+                        You got the wrong suspect!<br>
+                        Now the real one is going to get you next!<br>
+                        Unless, you could time travel back in time to try again.
+                    </p>
+                </div>
+                <div class="p-6 bg-noir-900 border border-noir-700 rounded-xl max-w-md mx-auto space-y-4">
+                    <button onclick="restartGame()" class="w-full bg-amberGold hover:bg-amber-400 text-noir-900 font-bold py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>Step Into Time Machine</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CASE NOTEBOOK DRAWER MODAL -->
+    <div id="notebookModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-noir-800 border border-amberGold/40 rounded-2xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+            <!-- Modal Header -->
+            <div class="p-5 border-b border-noir-700 bg-noir-900 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-book-bookmark text-amberGold text-xl"></i>
+                    <div>
+                        <h3 class="font-cinzel text-lg font-bold text-white">CASE NOTEBOOK EVIDENCE</h3>
+                        <p class="text-xs text-gray-400 font-courier">Collected Clues Log</p>
+                    </div>
+                </div>
+                <button onclick="toggleNotebookModal()" class="text-gray-400 hover:text-white text-xl p-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto space-y-4 flex-grow notebook-texture">
+                <p class="text-xs text-gray-400 mb-2">Click any question tab to inspect the clue entry stored in your notebook:</p>
+                
+                <!-- Quick Navigation Tabs 1 to 10 -->
+                <div id="notebookTabs" class="flex flex-wrap gap-2 pb-4 border-b border-noir-700">
+                    <!-- Tabs -->
+                </div>
+
+                <!-- Clue Detail Viewer Container -->
+                <div id="notebookDetailView" class="p-5 rounded-xl border border-noir-700 bg-noir-900 min-h-[140px] flex items-center justify-center text-center text-gray-500 font-courier text-sm">
+                    Select a question tab above to view the clue entry.
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 border-t border-noir-700 bg-noir-900 text-right">
+                <button onclick="toggleNotebookModal()" class="bg-noir-700 hover:bg-noir-600 text-white px-6 py-2 rounded-lg text-sm font-bold transition">
+                    Close Notebook
+                </button>
+            </div>
+        </div>
     </div>
 
-    <button class="btn" onclick="goToSuspects()">View Suspects</button>
-  </div>
+    <!-- Footer -->
+    <footer class="border-t border-noir-800 bg-noir-900 py-4 text-center text-xs text-gray-500 font-courier">
+        Agent Bio: Lord of Deduction • Biology Detective Mystery Engine
+    </footer>
 
-  <!-- STAGE 2: SUSPECTS -->
-  <div id="stageSuspects" class="hidden">
-    <h2>THE SUSPECT LINEUP</h2>
-    <div class="suspect-grid">
-      <div class="suspect-card">
-        <h4>James Animalia</h4>
-        <p>Human<br><em>Great Intelligence</em></p>
-      </div>
-      <div class="suspect-card">
-        <h4>Amelia Protista</h4>
-        <p>Amoeba<br><em>Queen Shape-Shifter</em></p>
-      </div>
-      <div class="suspect-card">
-        <h4>Lord Corpsuf Plantae</h4>
-        <p>Corpse Flower<br><em>Luxury Businessman</em></p>
-      </div>
-      <div class="suspect-card">
-        <h4>Mossrim Fungi</h4>
-        <p>Mushroom<br><em>Dark Shadow</em></p>
-      </div>
-      <div class="suspect-card">
-        <h4>Archie Microbus</h4>
-        <p>Microbe<br><em>Impenetrable Wall</em></p>
-      </div>
-      <div class="suspect-card">
-        <h4>Buster Bacteria</h4>
-        <p>Bacteria<br><em>Master of Diversion</em></p>
-      </div>
-    </div>
-    <button class="btn" onclick="goToNotebookIntro()">Examine Notebook Instructions</button>
-  </div>
+    <!-- GAME LOGIC SCRIPT -->
+    <script>
+        // Game Questions Data (All 10 Questions with Exact Python Clues)
+        const questionsData = [
+            {
+                id: 1,
+                prompt: "Biologists notice that after the introduction of an aggressive non-native vine into a forest canopy, the population of a specific native ground-dwelling beetle drops sharply within two years, even though the vine does not eat beetles. What is the most likely explanation for this decline?",
+                options: [
+                    "1. The vine secretes a toxin that poisons the beetles food source, causing them to starve.",
+                    "2. The vine blocks sunlight, causing the native plants the beetle relies on for food and shelter to die.",
+                    "3. The beetles migrate to a different ecosystem because the vines attract bigger predators that could eat the beetles.",
+                    "4. The vine increases the amount of oxygen in the air and reduces carbon dioxide. Due to this sudden change, the beetles do not have enough time to adapt, so their body temperature rises."
+                ],
+                correctIndex: 1,
+                cleanClue: "The suspect leaves behind muddy footprints made of rich soil, but they only seem to hang out where the producers are struggling to get enough sunlight.",
+                corruptedClue: "The suspect leaves #RQH muddy footprints #R)BAW of rich &R(h, but they only #(kfsa to hang out where the producers are @ig9awf to get enough DG#@(."
+            },
+            {
+                id: 2,
+                prompt: "A farmer plants a massive field with a single genetically identical variety of corn. A new fungal pathogen sweeps through the region. Meanwhile, a nearby indigenous community grows five different traditional varieties of corn in the same field. What outcome is most likely?",
+                options: [
+                    "1. The multi-variety corn will slowly mutate new resistance genes to fight off the fungus.",
+                    "2. The monoculture farm will survive easily because uniformity prevents disease spread.",
+                    "3. Both crops will have similar consequences because both the corn are the same species.",
+                    "4. The single-variety corn will slowly mutate new resistance genes to fight off the fungus."
+                ],
+                correctIndex: 0,
+                cleanClue: "Investigators noticed that wherever this mystery person goes, the local food web gets completely scrambled, like someone mixed up all the arrows between the animals.",
+                corruptedClue: "&siagw noticed that *sdhr9 this mystery person &Sdpwu, the local &dfhoe web gets completely si#h%, like someone mixed up all the 9Hd0w8 between the (sd3b )."
+            },
+            {
+                id: 3,
+                prompt: "In an Arctic marine food web, rising ocean temperatures cause sea ice to melt months earlier than normal. Ice algae (which grow under the ice and form the base of the food web) decline sharply. How will this climate change impact ripple up to top predators like polar bears?",
+                options: [
+                    "1. Polar bears will migrate to places just before the last of the ice melts. In its new habitat, there is more ice algae, which means more zooplankton, meaning more fish, meaning more seals, meaning more food for the polar bears.",
+                    "2. Melting ice expands the habitat size, causing seal populations to triple. Due to this, it is much easier for polar bears to eat them, causing a massive increase in polar bear population.",
+                    "3. Warmer water makes fish swim faster, making it easier for them to find food. However, it will be much harder for polar bears to catch them. Even their primary source of food, which are seals, will migrate to a better climate suited to them.",
+                    "4. Less ice algae means fewer zooplankton, leading to a collapse in fish populations, which starves seals and reduces polar bear food sources."
+                ],
+                correctIndex: 3,
+                cleanClue: "Security cameras caught the suspect trying to remove the keystone species from the local park just to see if the whole ecosystem would collapse like dominoes.",
+                corruptedClue: "Security E92df$  caught the suspect *9as0d to remove the keystone @dho3ru from the local *&%HD just to see if the *eafho2 ecosystem would collapse @@ED dominoes."
+            },
+            {
+                id: 4,
+                prompt: "A developer clears a massive mangrove forest along a tropical coastline to build luxury resorts. A few years later, a severe tropical storm hits the coast, causing catastrophic flooding and destroying local fishing industries. What best explains why this disaster occurred?",
+                options: [
+                    "1. During construction, a bolt was unscrewed causing a massive pile of dirt and rocks to fall into the ocean a few hours before the disaster. This reduced the defenses of the coastline greatly.",
+                    "2. Due to climate change, tides have been getting stronger and storms have been getting more powerful.",
+                    "3. The mangroves were acting as a physical buffer and maintaining ecosystem stability; losing them removed natural coastal protection and fish nurseries.",
+                    "4. It was just bad luck. Before, there was never a storm this powerful."
+                ],
+                correctIndex: 2,
+                cleanClue: "Just like an aggressive invasive vine taking over a forest canopy, this person shows up out of nowhere and crowds out everything else.",
+                corruptedClue: "Just like an )((&^$#@ *#RWh vine taking over a En#@39 canopy, this person (@JF3$ up out of nowhere and )((&&^ out everything else."
+            },
+            {
+                id: 5,
+                prompt: "An agricultural scientist evaluates two farming models: Model A uses a monoculture approach with heavy pesticide spraying, while Model B uses companion planting (intercropping legumes, corn, and squash together) which naturally deters pests and fixes nitrogen in the soil. Why is Model B more sustainable?",
+                options: [
+                    "1. It maximizes the immediate harvest speed and single-crop yield per acre, which is why commercial farms rely on it to feed large populations.",
+                    "2. It overrides the 10 percent energy rule, allowing companion plants to transfer 100 percent of their stored food energy directly into the soil without any heat loss.",
+                    "3. It allows plants to bypass soil nutrients entirely by absorbing synthetic fertilizers directly through their leaf stomata during photosynthesis.",
+                    "4. It mimics natural ecosystem diversity, using companion benefits like nitrogen-fixing roots and natural pest barriers to maintain soil health without heavy chemicals."
+                ],
+                correctIndex: 3,
+                cleanClue: "The suspect left behind a drawing of an energy pyramid, happy that only a tiny bit of energy makes it all the way to the top predators.",
+                corruptedClue: "The suspect left behind a ^DK@ of an energy pyramid, )(*&%## that only a tiny bit of energy __^*(%$ it all the way to the top _u@&."
+            },
+            {
+                id: 6,
+                prompt: "During a field study, students find an organism growing on a fallen log. It has multi-cellular filaments (hyphae), no chlorophyll, and absorbs nutrients externally. Using biological classification principles, why would scientists classify this organism as a fungus rather than a plant?",
+                options: [
+                    "1. Because it moves around actively like an animal to hunt food.",
+                    "2. Because it lacks chloroplasts and cannot perform photosynthesis, relying instead on external absorption.",
+                    "3. Because it possesses a rigid cell wall made of cellulose like all plants.",
+                    "4. Because it is microscopic and single-celled."
+                ],
+                correctIndex: 1,
+                cleanClue: "Witnesses said the person wasn’t even fazed when a brick fell on their head.",
+                corruptedClue: ")$&* said the person wasn’t (HF^ fazed )()(* a brick fell on )*!& head."
+            },
+            {
+                id: 7,
+                prompt: "Cleaner fish feed on dead skin and parasites off the bodies of larger predatory reef sharks. The sharks get a clean, disease-free body, and the cleaner fish get a steady food supply. If disease or pollution causes the cleaner fish to disappear from the reef, what will most likely happen to the sharks?",
+                options: [
+                    "1. The sharks will experience higher parasite burdens and tissue infections, leading to reduced health, or eventual migration away from the reef.",
+                    "2. The sharks will shift their niche to become primary consumers, feeding directly on reef algae to clear skin parasites through dietary changes.",
+                    "3. The shark population will rapidly increase because the energy previously lost to cleaner fish at higher trophic levels is now retained by the sharks.",
+                    "4. The sharks will adapt within a single season to secrete synthetic anti-parasitic toxins, replacing the ecosystem service provided by the cleaner fish."
+                ],
+                correctIndex: 0,
+                cleanClue: "They dropped a sketch showing two hawks fighting fiercely over the exact same mouse in a crowded field.",
+                corruptedClue: "They &(& a sketch )(&^ two hawks fighting )((& over the exact &(^@ mouse in a %(^ field."
+            },
+            {
+                id: 8,
+                prompt: "Conservationists are evaluating a national park. Park A has three different forest types (deciduous, pine, and wetland) across varying elevations. Park B has only one uniform pine forest, but it contains slightly more individual trees. Which park has higher ecosystem diversity?",
+                options: [
+                    "1. Park B, because having a higher total organism density maximizes the total energy biomass transferred across the primary producer level.",
+                    "2. Park B, because uniform ecosystems stabilize the food web by ensuring that primary consumers depend on only one primary producer species.",
+                    "3. Park A, because it spans multiple distinct habitats and abiotic conditions, supporting a broader array of ecological niches and species interactions.",
+                    "4. Both parks have identical ecosystem diversity because they both contain primary producers performing photosynthesis in the same climate region."
+                ],
+                correctIndex: 2,
+                cleanClue: "A teacher whispered a huge hint: the suspects first name sounds like an innocent person’s.",
+                corruptedClue: "A &(!* whispered a )(D^ hint: the *&^% first name sounds like *)& innocent person’s"
+            },
+            {
+                id: 9,
+                prompt: "A rapidly expanding urban development completely cuts through a dense forest, splitting a continuous nature reserve into two isolated woodland patches. As a result, local animal populations can no longer travel between the two sections to find food or shelter. As a conservation biologist evaluating options to protect biodiversity, which intervention would most effectively restore natural ecosystem function?",
+                options: [
+                    "1. Establishing continuous vegetated wildlife corridors connecting the two isolated forest patches, allowing animals to travel safely and maintain genetic diversity between populations.",
+                    "2. Installing high-intensity acoustic deterrent systems along the boundary edges, using sound frequencies to permanently keep animals contained deep within their respective forest patches.",
+                    "3. Increasing wildlife feeding stations in both patches, relying on artificial nutrition to boost population numbers without changing the physical land layout.",
+                    "4. Building high perimeter containment fences around each isolated patch to permanently divide the populations, forcing each group to adapt independently to smaller territory zones."
+                ],
+                correctIndex: 0,
+                cleanClue: "Investigators found a trail of fallen leaves and old logs being broken down by mushrooms and bacteria, with a mysterious calling card left right beside them.",
+                corruptedClue: "*))* found a trail of *U%^& leaves and old logs being )(*&^ down by mushrooms and !^&*, with a mysterious calling (&^% left right beside them."
+            },
+            {
+                id: 10,
+                prompt: "Agricultural fertilizer runoff enters a shallow lake, triggering a massive algal bloom. When the dense algae layer dies, decomposers consume the rotting plant matter, depleting almost all the dissolved oxygen in the water. Native fish die off due to suffocation, while invasive carp—which possess physiological adaptations to tolerate low-oxygen environments—rapidly take over the lake. How does this scenario connect environmental pollution, invasive species, and biodiversity loss?",
+                options: [
+                    "1. The arrival of invasive carp increases the water temperature, which causes the fertilizer chemicals to multiply and reduce overall oxygen production.",
+                    "2. Algal blooms increase the lakes total trophic efficiency, allowing top predators to survive without depending on dissolved oxygen.",
+                    "3. Fertilizer runoff acts as a direct toxin that targets native fish genetics, forcing native populations to leave the food web permanently.",
+                    "4. Chemical pollution alters the abiotic conditions of the habitat, harming vulnerable native species and allowing stress-tolerant invasive species to dominate and simplify the local food web."
+                ],
+                correctIndex: 3,
+                cleanClue: "One witness reported how they were invisible, and another reported that the car was moving by itself. Could there be a connection?",
+                corruptedClue: "One &^!b reported how they *9aw invisible, and another (((*& that the car was moving by )Wsdf. (sfie there be a *sei?"
+            }
+        ];
 
-  <!-- STAGE 3: NOTEBOOK INTRO -->
-  <div id="stageNotebookIntro" class="hidden">
-    <h2>THE ENCRYPTED NOTEBOOK</h2>
-    <p><em>"I have put these riddles in my book, to tease whoever even thinks about solving them. However, if you dare try, follow these instructions."</em></p>
-    <p><em>"On the next page, you will see the first riddle. There will be four options, and you must choose the correct one. If you are correct, you will receive a clue on my identity. However, if you are wrong, the clue will be corrupted."</em></p>
-    <p style="text-align: right; font-weight: bold; color: var(--gold);">- Signed by ???</p>
-    <button class="btn" onclick="goToSolversPage()">Flip to Next Page</button>
-  </div>
+        // Global State Variables
+        let currentQuestionIndex = 0;
+        let notebookClues = {}; // key: questionId, value: { clueText, isClean }
+        let hallOfFameSolvers = [];
 
-  <!-- STAGE 4: SOLVERS OF THE IMPOSSIBLE -->
-  <div id="stageSolvers" class="hidden">
-    <h1 class="title-large">SOLVERS OF THE IMPOSSIBLE</h1>
-    <p class="subtitle">People who have solved the last riddle</p>
-    
-    <div class="hall-of-fame" id="solversList">
-      <div id="emptySolversMsg" class="empty-solvers">No detectives have solved the final riddle yet... Will you be the first?</div>
-    </div>
+        // Navigation Functions
+        function showStage(stageId) {
+            const stages = ['stageIntro', 'stageSuspects', 'stageSolvers', 'stageQuestions', 'stageFinalBoss', 'stageAccusation', 'stageVerdict'];
+            stages.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(stageId).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-    <button class="btn btn-gold" id="solverStartBtn" onclick="startQuiz()">Start Solving the Riddles</button>
-  </div>
+        function getPlayerUsername() {
+            const val = document.getElementById('usernameInput').value.trim();
+            return val ? val : "Agent Bio";
+        }
 
-  <!-- STAGE 5: RIDDLE QUIZ -->
-  <div id="stageQuiz" class="hidden">
-    <h3 id="questionTracker">Question 1 of 10</h3>
-    <p id="questionText" style="font-size: 1.1rem; margin-bottom: 20px;"></p>
-    
-    <div class="options-grid" id="optionsContainer"></div>
+        function goToSuspects() {
+            showStage('stageSuspects');
+        }
 
-    <div id="clueDisplay" class="clue-box hidden"></div>
-    <button id="nextQBtn" class="btn hidden" onclick="nextQuestion()">Next Question</button>
-  </div>
+        function goToSolversPage() {
+            renderSolversList();
+            showStage('stageSolvers');
+        }
 
-  <!-- STAGE 6: BIOACCUMULATION FINAL RIDDLE -->
-  <div id="stageFinalRiddle" class="hidden">
-    <h2 style="color: var(--gold);">FINAL CHALLENGE: BIOACCUMULATION</h2>
-    <p>Industrial runoff introduces a persistent toxin (PCB) at 0.02 ppm. Algae absorbs it reaching 0.05 ppm. It multiplies by 10 across 3 trophic steps:</p>
-    <p><strong>Algae (0.05 ppm) &rarr; Zooplankton &rarr; Small Fish &rarr; Apex Pike</strong></p>
+        function renderSolversList() {
+            const listEl = document.getElementById('solversList');
+            listEl.innerHTML = '';
+            
+            if (hallOfFameSolvers.length === 0) {
+                listEl.innerHTML = `<div class="text-center text-gray-500 italic py-3 font-courier text-xs">No solvers yet. Pass the final riddle to etch your name in history!</div>`;
+                return;
+            }
 
-    <div class="input-group">
-      <label>1. Calculate the exact toxic concentration (in ppm) at Apex Pike level:</label>
-      <input type="number" id="mathInput" placeholder="e.g. 50">
-    </div>
+            hallOfFameSolvers.forEach((name, idx) => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between p-2 rounded bg-noir-800 border border-noir-700';
+                item.innerHTML = `
+                    <span class="text-amberGold font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-award"></i> ${name}
+                    </span>
+                    <span class="text-xs text-emeraldBio">SOLVER</span>
+                `;
+                listEl.appendChild(item);
+            });
+        }
 
-    <div class="input-group">
-      <label>2. Explain why low concentration harmless to algae causes reproductive failure in apex predators (10-75 words):</label>
-      <textarea id="explanationInput" placeholder="Explain using biomagnification, trophic levels, and accumulation..."></textarea>
-    </div>
+        function startRiddles() {
+            document.getElementById('openNotebookBtn').classList.remove('hidden');
+            currentQuestionIndex = 0;
+            notebookClues = {};
+            updateBadgeCount();
+            renderQuestion();
+            showStage('stageQuestions');
+        }
 
-    <button class="btn btn-gold" onclick="evaluateFinalRiddle()">Submit Final Riddle</button>
-  </div>
+        // Render Question
+        function renderQuestion() {
+            const q = questionsData[currentQuestionIndex];
+            
+            document.getElementById('currentQuestionNum').innerText = q.id;
+            const progressPct = ((currentQuestionIndex) / questionsData.length) * 100;
+            document.getElementById('progressBar').style.width = `${progressPct}%`;
+            
+            document.getElementById('questionPrompt').innerText = `${q.id}. ${q.prompt}`;
+            
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            
+            document.getElementById('feedbackBox').classList.add('hidden');
+            
+            q.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left p-4 rounded-xl border border-noir-700 bg-noir-900 hover:border-amberGold/50 hover:bg-noir-800 transition text-sm leading-relaxed flex items-start gap-3 group';
+                btn.onclick = () => handleAnswerChoice(idx);
+                btn.innerHTML = `
+                    <span class="w-6 h-6 rounded-full bg-noir-800 border border-noir-600 flex items-center justify-center text-xs font-courier text-amberGold group-hover:border-amberGold shrink-0 mt-0.5">${idx + 1}</span>
+                    <span class="text-gray-300 group-hover:text-white">${optText.substring(3)}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
 
-  <!-- STAGE 7: NOTEBOOK REVIEW & ACCUSATION -->
-  <div id="stageAccusation" class="hidden">
-    <h2>ACCUSATION PHASE</h2>
-    <p>Review your gathered clues before arresting the culprit:</p>
+        // Handle Answer Choice
+        function handleAnswerChoice(selectedIdx) {
+            const q = questionsData[currentQuestionIndex];
+            const isCorrect = (selectedIdx === q.correctIndex);
+            
+            // Disable option buttons
+            const optionBtns = document.getElementById('optionsContainer').querySelectorAll('button');
+            optionBtns.forEach(b => b.disabled = true);
 
-    <div class="input-group">
-      <label for="reviewSelect">Select Riddle Entry to Review:</label>
-      <select id="reviewSelect" onchange="showReviewedClue()" style="padding: 10px; background: #0f172a; color: white; border-radius: 8px;">
-        <option value="">-- Choose Notebook Entry --</option>
-      </select>
-    </div>
-    <div id="reviewedClueBox" class="clue-box hidden"></div>
+            // Record clue in notebook
+            notebookClues[q.id] = {
+                clueText: isCorrect ? q.cleanClue : q.corruptedClue,
+                isClean: isCorrect
+            };
+            updateBadgeCount();
 
-    <h3 style="margin-top: 24px;">SELECT THE CULPRIT TO ARREST:</h3>
-    <div class="suspect-grid">
-      <div class="suspect-card" onclick="makeAccusation(1)"><h4>1. James Animalia</h4></div>
-      <div class="suspect-card" onclick="makeAccusation(2)"><h4>2. Amelia Protista</h4></div>
-      <div class="suspect-card" onclick="makeAccusation(3)"><h4>3. Lord Corpsuf Plantae</h4></div>
-      <div class="suspect-card" onclick="makeAccusation(4)"><h4>4. Mossrim Fungi</h4></div>
-      <div class="suspect-card" onclick="makeAccusation(5)"><h4>5. Archie Microbus</h4></div>
-      <div class="suspect-card" onclick="makeAccusation(6)"><h4>6. Buster Bacteria</h4></div>
-    </div>
-  </div>
+            // Show feedback box
+            const feedbackBox = document.getElementById('feedbackBox');
+            const statusEl = document.getElementById('feedbackStatus');
+            const clueEl = document.getElementById('feedbackClue');
+            
+            feedbackBox.classList.remove('hidden', 'border-emeraldBio', 'border-crimsonAlert', 'bg-emeraldBio/10', 'bg-crimsonAlert/10');
+            
+            if (isCorrect) {
+                feedbackBox.classList.add('border-emeraldBio', 'bg-emeraldBio/10');
+                statusEl.innerHTML = `<i class="fa-solid fa-check-circle text-emeraldBio text-lg"></i> <span class="text-emeraldBio">Correct! Clue Secured:</span>`;
+                clueEl.className = "clean-clue p-4 rounded-lg text-sm leading-relaxed font-courier";
+                clueEl.innerText = q.cleanClue;
+            } else {
+                feedbackBox.classList.add('border-crimsonAlert', 'bg-crimsonAlert/10');
+                statusEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-crimsonAlert text-lg"></i> <span class="text-crimsonAlert">Incorrect! Clue Corrupted:</span>`;
+                clueEl.className = "corrupted-text p-4 rounded-lg text-sm leading-relaxed font-courier";
+                clueEl.innerText = q.corruptedClue;
+            }
+        }
 
-  <!-- STAGE 8: FINAL VERDICT -->
-  <div id="stageVerdict" class="hidden">
-    <h1 id="verdictTitle">VERDICT</h1>
-    <p id="verdictText" style="font-size: 1.2rem; text-align: center; margin: 20px 0;"></p>
-    <button class="btn" onclick="resetGame()">Step into the Time Machine (Try Again)</button>
-  </div>
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questionsData.length) {
+                renderQuestion();
+            } else {
+                showStage('stageFinalBoss');
+            }
+        }
 
-</div>
+        // Word Counter for Boss Explanation
+        function updateWordCount() {
+            const text = document.getElementById('explanationInput').value;
+            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            const counterEl = document.getElementById('wordCounter');
+            counterEl.innerText = `${words} / 75 words`;
+            if (words > 75) {
+                counterEl.classList.add('text-crimsonAlert');
+            } else {
+                counterEl.classList.remove('text-crimsonAlert');
+            }
+        }
 
-<script>
-  let username = "Agent Bio";
-  let currentQuestion = 0;
-  let cluesCollected = {};
+        // Final Boss Form Submission
+        function handleBioSubmit(event) {
+            event.preventDefault();
+            const ppmVal = parseFloat(document.getElementById('ppmInput').value);
+            const explanation = document.getElementById('explanationInput').value.toLowerCase();
+            const words = explanation.trim() === '' ? 0 : explanation.trim().split(/\s+/).length;
 
-  const questionsData = [
-    {
-      q: "Biologists notice that after the introduction of an aggressive non-native vine into a forest canopy, the population of a specific native ground-dwelling beetle drops sharply within two years, even though the vine does not eat beetles. What is the most likely explanation for this decline?",
-      options: [
-        "1. The vine secretes a toxin that poisons the beetles food source, causing them to starve.",
-        "2. The vine blocks sunlight, causing the native plants the beetle relies on for food and shelter to die.",
-        "3. The beetles migrate to a different ecosystem because the vines attract bigger predators.",
-        "4. The vine increases oxygen levels rapidly causing body temperature spikes in beetles."
-      ],
-      correct: 1,
-      clean: "The suspect leaves behind muddy footprints made of rich soil, but they only seem to hang out where the producers are struggling to get enough sunlight.",
-      corrupted: "The suspect leaves #RQH muddy footprints #R)BAW of rich &R(h, but they only #(kfsa to hang out where the producers are @ig9awf to get enough DG#@(."
-    },
-    {
-      q: "A farmer plants a massive field with a single genetically identical variety of corn. A new fungal pathogen sweeps through the region. Meanwhile, a nearby indigenous community grows five different traditional varieties of corn in the same field. What outcome is most likely?",
-      options: [
-        "1. The multi-variety corn field is more likely to survive because genetic diversity prevents total crop failure.",
-        "2. The monoculture farm will survive easily because uniformity prevents disease spread.",
-        "3. Both crops will have similar consequences because both the corn are the same species.",
-        "4. The single-variety corn will slowly mutate new resistance genes to fight off the fungus."
-      ],
-      correct: 0,
-      clean: "Investigators noticed that wherever this mystery person goes, the local food web gets completely scrambled, like someone mixed up all the arrows between the animals.",
-      corrupted: "&siagw noticed that *sdhr9 this mystery person &Sdpwu, the local &dfhoe web gets completely si#h%, like someone mixed up all the 9Hd0w8 between the (sd3b )."
-    },
-    {
-      q: "In an Arctic marine food web, rising ocean temperatures cause sea ice to melt months earlier than normal. Ice algae decline sharply. How will this climate change impact ripple up to top predators like polar bears?",
-      options: [
-        "1. Polar bears will migrate to places where seal populations triple rapidly.",
-        "2. Melting ice expands habitat size causing an increase in seal and bear populations.",
-        "3. Warmer water makes fish swim faster, causing bears to switch entirely to primary producers.",
-        "4. Less ice algae means fewer zooplankton, leading to a collapse in fish populations, which starves seals and reduces polar bear food sources."
-      ],
-      correct: 3,
-      clean: "Security cameras caught the suspect trying to remove the keystone species from the local park just to see if the whole ecosystem would collapse like dominoes.",
-      corrupted: "Security E92df$ caught the suspect *9as0d to remove the keystone @dho3ru from the local *&%HD just to see if the *eafho2 ecosystem would collapse @@ED dominoes."
-    },
-    {
-      q: "A developer clears a massive mangrove forest along a tropical coastline to build luxury resorts. A few years later, a severe tropical storm hits the coast, causing catastrophic flooding. What best explains why this disaster occurred?",
-      options: [
-        "1. Loose dirt unscrewed coastal defenses during storm development.",
-        "2. Tides got naturally stronger independent of mangrove trees.",
-        "3. Mangroves acted as physical buffers; removing them destroyed natural protection and fish nurseries.",
-        "4. It was just bad luck; coastal storms never occurred prior."
-      ],
-      correct: 2,
-      clean: "Just like an aggressive invasive vine taking over a forest canopy, this person shows up out of nowhere and crowds out everything else.",
-      corrupted: "Just like an )((&^$#@ *#RWh vine taking over a En#@39 canopy, this person (@JF3$ up out of nowhere and )((&&^ out everything else."
-    },
-    {
-      q: "Why is companion planting (intercropping legumes, corn, and squash) more sustainable than heavy pesticide monoculture?",
-      options: [
-        "1. It maximizes single-crop yield speed per acre commercial farms rely on.",
-        "2. It overrides the 10 percent energy rule completely.",
-        "3. It allows plants to absorb synthetic fertilizer directly via stomata.",
-        "4. It mimics natural ecosystem diversity, using nitrogen-fixing roots and natural pest barriers to maintain soil health."
-      ],
-      correct: 3,
-      clean: "The suspect left behind a drawing of an energy pyramid, happy that only a tiny bit of energy makes it all the way to the top predators.",
-      corrupted: "The suspect left behind a ^DK@ of an energy pyramid, )(*&%## that only a tiny bit of energy __^*(%$ it all the way to the top _u@&."
-    },
-    {
-      q: "Why do scientists classify an organism with hyphae, no chlorophyll, and external nutrient absorption as a fungus rather than a plant?",
-      options: [
-        "1. Because it actively hunts food like an animal.",
-        "2. Because it lacks chloroplasts and cannot perform photosynthesis, relying instead on external absorption.",
-        "3. Because it possesses cell walls made of cellulose.",
-        "4. Because it is single-celled."
-      ],
-      correct: 1,
-      clean: "Witnesses said the person wasn’t even fazed when a brick fell on their head.",
-      corrupted: ")$&* said the person wasn’t (HF^ fazed )()(* a brick fell on )*!& head."
-    },
-    {
-      q: "If cleaner fish disappear from a reef due to pollution, what happens to predatory sharks that rely on them for parasite removal?",
-      options: [
-        "1. The sharks experience higher parasite burdens and tissue infections, leading to reduced health or migration.",
-        "2. Sharks become primary consumers feeding on algae.",
-        "3. Shark populations triple due to energy retention.",
-        "4. Sharks instantly adapt to produce synthetic anti-parasitic toxins."
-      ],
-      correct: 0,
-      clean: "They dropped a sketch showing two hawks fighting fiercely over the exact same mouse in a crowded field.",
-      corrupted: "They &(& a sketch )(&^ two hawks fighting )((& over the exact &(^@ mouse in a %(^ field."
-    },
-    {
-      q: "Park A has three forest types across varying elevations. Park B has one uniform pine forest with slightly more trees. Which has higher ecosystem diversity?",
-      options: [
-        "1. Park B, due to organism density.",
-        "2. Park A, because it spans multiple distinct habitats and abiotic conditions, supporting a broader array of ecological niches.",
-        "3. Park B, because uniform forests stabilize food webs.",
-        "4. Both are identical because both perform photosynthesis."
-      ],
-      correct: 1,
-      clean: "A teacher whispered a huge hint: the suspects first name sounds like an innocent person’s.",
-      corrupted: "A &(!* whispered a )(D^ hint: the *&^% first name sounds like *)& innocent person’s"
-    },
-    {
-      q: "An urban development cuts a forest reserve into two isolated patches. Which intervention best restores ecosystem function?",
-      options: [
-        "1. Establishing continuous vegetated wildlife corridors connecting isolated patches to allow safe travel and genetic diversity.",
-        "2. Installing acoustic deterrents to trap animals deep in patches.",
-        "3. Adding artificial feeding stations without changing land layout.",
-        "4. Building perimeter fences to isolate populations permanently."
-      ],
-      correct: 0,
-      clean: "Investigators found a trail of fallen leaves and old logs being broken down by mushrooms and bacteria, with a mysterious calling card left right beside them.",
-      corrupted: "*))* found a trail of *U%^& leaves and old logs being )(*&^ down by mushrooms and !^&*, with a mysterious calling (&^% left right beside them."
-    },
-    {
-      q: "Fertilizer runoff causes algal blooms and low-oxygen dead zones, leading to native fish deaths and invasive carp dominance. How are these linked?",
-      options: [
-        "1. Carp increase water temperature, multiplying fertilizer chemicals.",
-        "2. Algal blooms increase overall trophic efficiency.",
-        "3. Fertilizer acts as a direct genetic poison to native fish.",
-        "4. Chemical pollution alters abiotic conditions, harming vulnerable native species and allowing stress-tolerant invasive species to dominate."
-      ],
-      correct: 3,
-      clean: "One witness reported how they were invisible, and another reported that the car was moving by itself. Could there be a connection?",
-      corrupted: "One &^!b reported how they *9aw invisible, and another (((*& that the car was moving by )Wsdf. (sfie there be a *sei?"
-    }
-  ];
+            const isMathCorrect = Math.abs(ppmVal - 50.0) <= 1.0;
+            const requiredKeywords = ["biomagnification", "trophic", "accumulat"];
+            const hasKeywords = requiredKeywords.every(kw => explanation.includes(kw));
+            const isConcise = words >= 10 && words <= 75;
 
-  function showStage(stageId) {
-    document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
-    document.getElementById(stageId).classList.remove('hidden');
-  }
+            const resultEl = document.getElementById('bossResult');
+            resultEl.classList.remove('hidden');
 
-  function goToSuspects() {
-    const input = document.getElementById('usernameInput').value.trim();
-    if(input) username = input;
-    showStage('stageSuspects');
-  }
+            if (isMathCorrect && hasKeywords && isConcise) {
+                resultEl.className = "p-4 rounded-xl border border-emeraldBio bg-emeraldBio/10 text-emeraldBio font-courier text-sm space-y-2";
+                resultEl.innerHTML = `
+                    <div class="font-bold flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> Final Challenge Passed!</div>
+                    <p>Your mathematical calculations and ecological deduction are flawless. You have mastered the web of life!</p>
+                `;
 
-  function goToNotebookIntro() {
-    showStage('stageNotebookIntro');
-  }
+                // Add username to solvers list
+                const username = getPlayerUsername();
+                if (!hallOfFameSolvers.includes(username)) {
+                    hallOfFameSolvers.unshift(username);
+                }
 
-  function goToSolversPage() {
-    showStage('stageSolvers');
-  }
+                setTimeout(() => {
+                    showStage('stageAccusation');
+                }, 2000);
+            } else {
+                resultEl.className = "p-4 rounded-xl border border-crimsonAlert bg-crimsonAlert/10 text-crimsonAlert font-courier text-sm space-y-2";
+                resultEl.innerHTML = `
+                    <div class="font-bold flex items-center gap-2"><i class="fa-solid fa-circle-xmark"></i> Evaluation Failed</div>
+                    <p>Check your math (0.05 ppm × 10 × 10 × 10 = 50.0 ppm) and ensure your explanation contains 'biomagnification', 'trophic', and 'accumulat' within 10-75 words without markdown/bullets.</p>
+                `;
+            }
+        }
 
-  function startQuiz() {
-    currentQuestion = 0;
-    cluesCollected = {};
-    renderQuestion();
-    showStage('stageQuiz');
-  }
+        // Notebook Modal & Tabs Logic
+        function updateBadgeCount() {
+            const count = Object.keys(notebookClues).length;
+            document.getElementById('clueBadgeCount').innerText = `${count}/10`;
+        }
 
-  function renderQuestion() {
-    const qData = questionsData[currentQuestion];
-    document.getElementById('questionTracker').innerText = `Question ${currentQuestion + 1} of 10`;
-    document.getElementById('questionText').innerText = qData.q;
-    
-    const container = document.getElementById('optionsContainer');
-    container.innerHTML = '';
-    document.getElementById('clueDisplay').classList.add('hidden');
-    document.getElementById('nextQBtn').classList.add('hidden');
+        function toggleNotebookModal() {
+            const modal = document.getElementById('notebookModal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                renderNotebookTabs();
+            }
+        }
 
-    qData.options.forEach((optText, index) => {
-      const btn = document.createElement('button');
-      btn.className = 'option-btn';
-      btn.innerText = optText;
-      btn.onclick = () => selectOption(index);
-      container.appendChild(btn);
-    });
-  }
+        function renderNotebookTabs() {
+            const tabsContainer = document.getElementById('notebookTabs');
+            tabsContainer.innerHTML = '';
 
-  function selectOption(index) {
-    const qData = questionsData[currentQuestion];
-    const isCorrect = (index === qData.correct);
-    const clueBox = document.getElementById('clueDisplay');
+            for (let i = 1; i <= 10; i++) {
+                const btn = document.createElement('button');
+                const hasClue = notebookClues[i];
+                btn.className = `px-3 py-1.5 rounded-lg font-courier text-xs font-bold border transition flex items-center gap-1.5 ${
+                    hasClue 
+                        ? (hasClue.isClean ? 'bg-emeraldBio/20 border-emeraldBio text-emeraldBio' : 'bg-crimsonAlert/20 border-crimsonAlert text-crimsonAlert')
+                        : 'bg-noir-900 border-noir-700 text-gray-500 hover:border-gray-500'
+                }`;
+                btn.innerHTML = `Q${i} ${hasClue ? (hasClue.isClean ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-xmark"></i>') : '<i class="fa-solid fa-lock"></i>'}`;
+                btn.onclick = () => viewNotebookClue(i);
+                tabsContainer.appendChild(btn);
+            }
+        }
 
-    clueBox.classList.remove('hidden', 'clue-corrupted');
+        function viewNotebookClue(qId) {
+            const detailView = document.getElementById('notebookDetailView');
+            const clueData = notebookClues[qId];
 
-    if (isCorrect) {
-      clueBox.innerText = `🔍 UNLOCKED CLUE: ${qData.clean}`;
-      cluesCollected[currentQuestion + 1] = qData.clean;
-    } else {
-      clueBox.classList.add('clue-corrupted');
-      clueBox.innerText = `⚠️ CORRUPTED CLUE: ${qData.corrupted}`;
-      cluesCollected[currentQuestion + 1] = qData.corrupted;
-    }
+            if (!clueData) {
+                detailView.className = "p-5 rounded-xl border border-noir-700 bg-noir-900 flex items-center justify-center text-center text-gray-500 font-courier text-sm";
+                detailView.innerText = `Riddle #${qId} has not been solved yet. Complete it in the timeline to record evidence!`;
+                return;
+            }
 
-    document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
-    document.getElementById('nextQBtn').classList.remove('hidden');
-  }
+            if (clueData.isClean) {
+                detailView.className = "clean-clue p-5 rounded-xl text-left font-courier text-sm leading-relaxed space-y-2";
+                detailView.innerHTML = `<span class="text-xs uppercase tracking-wider block opacity-75">Notebook Entry # ${qId} [VERIFIED CLEAN CLUE]</span><p>${clueData.clueText}</p>`;
+            } else {
+                detailView.className = "corrupted-text p-5 rounded-xl text-left font-courier text-sm leading-relaxed space-y-2";
+                detailView.innerHTML = `<span class="text-xs uppercase tracking-wider block opacity-75">Notebook Entry # ${qId} [CORRUPTED CLUE]</span><p>${clueData.clueText}</p>`;
+            }
+        }
 
-  function nextQuestion() {
-    currentQuestion++;
-    if (currentQuestion < questionsData.length) {
-      renderQuestion();
-    } else {
-      showStage('stageFinalRiddle');
-    }
-  }
+        // Accusation & Verdict Logic
+        function selectSuspect(suspectId) {
+            showStage('stageVerdict');
+            const winDiv = document.getElementById('verdictWin');
+            const loseDiv = document.getElementById('verdictLose');
 
-  function evaluateFinalRiddle() {
-    const ppmVal = parseFloat(document.getElementById('mathInput').value);
-    const explanation = document.getElementById('explanationInput').value.toLowerCase();
-    const words = explanation.trim().split(/\s+/).length;
+            if (suspectId === '5') {
+                winDiv.classList.remove('hidden');
+                loseDiv.classList.add('hidden');
+                document.getElementById('winnerDisplay').innerText = getPlayerUsername();
+            } else {
+                winDiv.classList.add('hidden');
+                loseDiv.classList.remove('hidden');
+            }
+        }
 
-    const mathCorrect = Math.abs(ppmVal - 50.0) <= 1.0;
-    const hasKeywords = ["biomagnification", "trophic", "accumulat"].every(kw => explanation.includes(kw));
-    const validLength = words >= 10 && words <= 75;
+        function confirmRestart() {
+            if (confirm("Are you sure you want to reset the timeline and start over?")) {
+                restartGame();
+            }
+        }
 
-    if (mathCorrect && hasKeywords && validLength) {
-      // DYNAMICALLY ADD USERNAME TO SOLVERS LIST UPON SOLVING
-      const list = document.getElementById('solversList');
-      const emptyMsg = document.getElementById('emptySolversMsg');
-      if (emptyMsg) emptyMsg.remove();
-
-      if (!document.getElementById('solver-' + username)) {
-        const newEntry = document.createElement('div');
-        newEntry.className = 'solver-item';
-        newEntry.id = 'solver-' + username;
-        newEntry.innerHTML = `<span>1. ${username} (Master Bio-Deduction Expert)</span><span>SOLVER</span>`;
-        list.appendChild(newEntry);
-      }
-
-      // Transition to Solvers of the Impossible page before Accusation
-      document.getElementById('solverStartBtn').innerText = "Proceed to Accusation Phase";
-      document.getElementById('solverStartBtn').onclick = goToAccusation;
-      showStage('stageSolvers');
-    } else {
-      alert("Your calculation or reasoning on the Bioaccumulation riddle was incorrect! Review your trophic transfer math (0.05 x 10^3) and mandatory terms (biomagnification, trophic, accumulat) then try again.");
-    }
-  }
-
-  function goToAccusation() {
-    const select = document.getElementById('reviewSelect');
-    select.innerHTML = '<option value="">-- Choose Notebook Entry --</option>';
-    for (let i = 1; i <= 10; i++) {
-      const opt = document.createElement('option');
-      opt.value = i;
-      opt.innerText = `Question #${i} Clue Entry`;
-      select.appendChild(opt);
-    }
-    showStage('stageAccusation');
-  }
-
-  function showReviewedClue() {
-    const qNum = document.getElementById('reviewSelect').value;
-    const box = document.getElementById('reviewedClueBox');
-    if (qNum && cluesCollected[qNum]) {
-      box.classList.remove('hidden');
-      box.innerText = `Notebook Entry #${qNum}: ${cluesCollected[qNum]}`;
-    } else {
-      box.classList.add('hidden');
-    }
-  }
-
-  function makeAccusation(suspectId) {
-    showStage('stageVerdict');
-    const title = document.getElementById('verdictTitle');
-    const text = document.getElementById('verdictText');
-
-    if (suspectId === 5) {
-      title.style.color = "var(--gold)";
-      title.innerText = "CASE SOLVED!";
-      text.innerText = `Congratulations, ${username}! You slap the handcuffs on Archie Microbus! The Impenetrable Wall couldn't stand up against your ecological deduction. You have proved yourself once again to be the best detective in the world!`;
-    } else {
-      title.style.color = "var(--danger)";
-      title.innerText = "WRONG SUSPECT!";
-      text.innerText = `You arrested the wrong suspect! The real culprit slipped away into the shadows while you were distracted. You must step into the time machine to try again!`;
-    }
-  }
-
-  function resetGame() {
-    showStage('stageIntro');
-  }
-</script>
-
+        function restartGame() {
+            currentQuestionIndex = 0;
+            notebookClues = {};
+            document.getElementById('usernameInput').value = "Agent Bio";
+            document.getElementById('ppmInput').value = "";
+            document.getElementById('explanationInput').value = "";
+            document.getElementById('bossResult').classList.add('hidden');
+            document.getElementById('openNotebookBtn').classList.add('hidden');
+            showStage('stageIntro');
+        }
+    </script>
 </body>
 </html>
