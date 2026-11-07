@@ -593,6 +593,15 @@
                         await signInAnonymously(auth);
                     }
                     userId = auth.currentUser?.uid || crypto.randomUUID();
+                    
+                    // Fetch initial data immediately on load
+                    const solversRef = doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame_global');
+                    const docSnap = await getDoc(solversRef);
+                    if (docSnap.exists()) {
+                        hallOfFameSolvers = docSnap.data().solvers || [];
+                        renderSolversList();
+                    }
+
                     setupRealtimeSolvers();
                 } else {
                     console.warn("Firebase config not available. Running in local mode.");
