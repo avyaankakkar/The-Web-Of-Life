@@ -363,6 +363,11 @@
                     <div class="p-3 bg-noir-800 rounded-lg text-center text-emeraldBio font-bold">
                         Algae (0.05 ppm) ➔ Zooplankton ➔ Small Fish ➔ Apex Pike
                     </div>
+                    <div class="p-3 bg-noir-800/80 border border-amberGold/30 rounded-lg text-amberGold text-center text-xs space-y-1">
+                        <p class="font-bold"><i class="fa-solid fa-lightbulb"></i> CHEAT SHEET ANSWER:</p>
+                        <p>1. Calculation: <strong class="text-white">50</strong> (or 50.0)</p>
+                        <p>2. Explanation: <strong class="text-white">Due to biomagnification across trophic levels, persistent toxins accumulate in apex predators because each step multiplies concentration, causing reproductive failure despite low baseline levels.</strong></p>
+                    </div>
                 </div>
 
                 <form id="bioForm" onsubmit="handleBioSubmit(event)" class="space-y-6">
@@ -563,78 +568,79 @@
                 </button>
             </div>
 
-            <!-- LOSING SCREEN (ANONYMOUS & TIME MACHINE) -->
-            <div id="verdictLose" class="hidden bg-noir-800 border-2 border-crimsonAlert rounded-2xl p-8 text-center space-y-6 shadow-2xl">
-                <div class="w-20 h-20 bg-crimsonAlert/20 border border-crimsonAlert text-crimsonAlert rounded-full flex items-center justify-center text-4xl mx-auto shadow-lg shadow-crimsonAlert/20">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                </div>
-                <div class="space-y-2">
-                    <span class="font-courier text-xs text-crimsonAlert font-bold uppercase tracking-widest">Warrant Error</span>
-                    <h2 class="font-cinzel text-3xl font-extrabold text-white">WRONG SUSPECT ARRESTED!</h2>
-                    <p class="text-gray-300 max-w-xl mx-auto leading-relaxed text-base">
-                        You got the wrong suspect!<br>
-                        Now the real one is going to get you next!<br>
-                        Unless, you could time travel back in time to try again.
-                    </p>
-                </div>
-                <div class="p-6 bg-noir-900 border border-noir-700 rounded-xl max-w-md mx-auto space-y-4">
-                    <button onclick="restartGame()" class="w-full bg-amberGold hover:bg-amber-400 text-noir-900 font-bold py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-bolt"></i>
-                        <span>Step Into Time Machine</span>
-                    </button>
-                </div>
-            </div>
-        </section>
+    <!-- Game Logic Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    </main>
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
 
-    <!-- CASE NOTEBOOK DRAWER MODAL -->
-    <div id="notebookModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-noir-800 border border-amberGold/40 rounded-2xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
-            <!-- Modal Header -->
-            <div class="p-5 border-b border-noir-700 bg-noir-900 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-book-bookmark text-amberGold text-xl"></i>
-                    <div>
-                        <h3 class="font-cinzel text-lg font-bold text-white">CASE NOTEBOOK EVIDENCE</h3>
-                        <p class="text-xs text-gray-400 font-courier">Collected Clues Log</p>
-                    </div>
-                </div>
-                <button onclick="toggleNotebookModal()" class="text-gray-400 hover:text-white text-xl p-1">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
+        let app, db, auth, userId = null;
+        let hallOfFameSolvers = [];
 
-            <!-- Modal Body -->
-            <div class="p-6 overflow-y-auto space-y-4 flex-grow notebook-texture">
-                <p class="text-xs text-gray-400 mb-2">Click any question tab to inspect the clue entry stored in your notebook:</p>
-                
-                <!-- Quick Navigation Tabs 1 to 10 -->
-                <div id="notebookTabs" class="flex flex-wrap gap-2 pb-4 border-b border-noir-700">
-                    <!-- Tabs -->
-                </div>
+        async function initFirebase() {
+            try {
+                if (Object.keys(firebaseConfig).length > 0) {
+                    app = initializeApp(firebaseConfig);
+                    db = getFirestore(app);
+                    auth = getAuth(app);
 
-                <!-- Clue Detail Viewer Container -->
-                <div id="notebookDetailView" class="p-5 rounded-xl border border-noir-700 bg-noir-900 min-h-[140px] flex items-center justify-center text-center text-gray-500 font-courier text-sm">
-                    Select a question tab above to view the clue entry.
-                </div>
-            </div>
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    userId = auth.currentUser?.uid || crypto.randomUUID();
+                    setupRealtimeSolvers();
+                }
+            } catch (err) {
+                console.error("Firebase init error:", err);
+            }
+        }
 
-            <!-- Modal Footer -->
-            <div class="p-4 border-t border-noir-700 bg-noir-900 text-right">
-                <button onclick="toggleNotebookModal()" class="bg-noir-700 hover:bg-noir-600 text-white px-6 py-2 rounded-lg text-sm font-bold transition">
-                    Close Notebook
-                </button>
-            </div>
-        </div>
-    </div>
+        function setupRealtimeSolvers() {
+            if (!db) return;
+            const solversRef = doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame');
+            onSnapshot(solversRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    hallOfFameSolvers = docSnap.data().solvers || [];
+                } else {
+                    hallOfFameSolvers = [];
+                }
+                renderSolversList();
+            }, (error) => {
+                console.error("Firestore snapshot error:", error);
+            });
+        }
 
-    <!-- Footer -->
-    <footer class="border-t border-noir-800 bg-noir-900 py-4 text-center text-xs text-gray-500 font-courier">
-        Agent Bio: Lord of Deduction • Biology Detective Mystery Engine
-    </footer>
+        async function publishSolverToCloud(username) {
+            if (!db) {
+                if (!hallOfFameSolvers.includes(username)) {
+                    hallOfFameSolvers.unshift(username);
+                }
+                return;
+            }
+            try {
+                if (!hallOfFameSolvers.includes(username)) {
+                    hallOfFameSolvers.unshift(username);
+                }
+                const solversRef = doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame');
+                await setDoc(solversRef, { solvers: hallOfFameSolvers }, { merge: true });
+            } catch (err) {
+                console.error("Error publishing solver:", err);
+            }
+        }
 
-    <!-- GAME LOGIC SCRIPT -->
+        window.publishSolverToCloud = publishSolverToCloud;
+        window.getHallOfFameSolvers = () => hallOfFameSolvers;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initFirebase();
+        });
+    </script>
+
     <script>
         // Game Questions Data (All 10 Questions with Exact Python Clues)
         const questionsData = [
@@ -931,16 +937,17 @@
             resultEl.classList.remove('hidden');
 
             if (isMathCorrect && hasKeywords && isConcise) {
-                // Add username to solvers list automatically upon success
+                // Add username to cloud solvers list automatically upon success
                 const username = getPlayerUsername();
-                if (!hallOfFameSolvers.includes(username)) {
-                    hallOfFameSolvers.unshift(username);
+                if (typeof window.publishSolverToCloud === 'function') {
+                    window.publishSolverToCloud(username);
                 }
 
                 // Render success solvers list view
                 const successListEl = document.getElementById('successSolversList');
                 successListEl.innerHTML = '';
-                hallOfFameSolvers.forEach((name) => {
+                const solvers = typeof window.getHallOfFameSolvers === 'function' ? window.getHallOfFameSolvers() : [];
+                solvers.forEach((name) => {
                     const item = document.createElement('div');
                     item.className = 'flex items-center justify-between p-2 rounded bg-noir-800 border border-noir-700';
                     item.innerHTML = `
@@ -963,6 +970,31 @@
                     showStage('stageAccusation');
                 }, 1200);
             }
+        }
+
+        function renderSolversList() {
+            const listEl = document.getElementById('solversList');
+            if (!listEl) return;
+            listEl.innerHTML = '';
+            
+            const solvers = typeof window.getHallOfFameSolvers === 'function' ? window.getHallOfFameSolvers() : [];
+            
+            if (solvers.length === 0) {
+                listEl.innerHTML = `<div class="text-center text-gray-500 italic py-3 font-courier text-xs">No solvers yet. Pass the final riddle to etch your name in history!</div>`;
+                return;
+            }
+
+            solvers.forEach((name) => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between p-2 rounded bg-noir-800 border border-noir-700';
+                item.innerHTML = `
+                    <span class="text-amberGold font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-award"></i> ${name}
+                    </span>
+                    <span class="text-xs text-emeraldBio">SOLVER</span>
+                `;
+                listEl.appendChild(item);
+            });
         }
 
         // Notebook Modal & Tabs Logic
