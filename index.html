@@ -572,7 +572,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
@@ -594,7 +594,7 @@
                     }
                     userId = auth.currentUser?.uid || crypto.randomUUID();
                     
-                    // Fetch initial data immediately on load
+                    // Fetch initial data immediately on load from Firestore
                     const solversRef = doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame_global');
                     const docSnap = await getDoc(solversRef);
                     if (docSnap.exists()) {
@@ -636,10 +636,12 @@
                 return;
             }
             try {
+                // Ensure local array includes the solver if not already present
                 if (!hallOfFameSolvers.includes(username)) {
                     hallOfFameSolvers.unshift(username);
                 }
                 const solversRef = doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame_global');
+                // Use setDoc with merge: true to update the cloud document immediately
                 await setDoc(solversRef, { solvers: hallOfFameSolvers }, { merge: true });
             } catch (err) {
                 console.error("Error publishing solver:", err);
