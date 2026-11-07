@@ -400,6 +400,41 @@
             </div>
         </section>
 
+        <!-- STAGE 4.5: SOLVERS OF THE IMPOSSIBLE SUCCESS SCREEN -->
+        <section id="stageSolverSuccess" class="hidden space-y-6">
+            <div class="bg-noir-800 border border-amberGold/40 rounded-2xl p-6 md:p-8 shadow-2xl text-center space-y-6">
+                <div class="space-y-2">
+                    <span class="font-courier text-xs text-amberGold uppercase tracking-widest bg-amberGold/10 px-3 py-1 rounded-full border border-amberGold/30">
+                        Victory Unlocked
+                    </span>
+                    <h2 class="font-cinzel text-3xl md:text-4xl font-extrabold text-white tracking-wide">
+                        SOLVERS OF THE IMPOSSIBLE
+                    </h2>
+                    <p class="text-gray-400 font-courier text-sm md:text-base">
+                        People who have solved the last riddle
+                    </p>
+                </div>
+
+                <!-- Hall of Fame List Container -->
+                <div class="bg-noir-900 border border-noir-700 rounded-xl p-6 max-w-lg mx-auto text-left space-y-3 font-courier">
+                    <div class="text-xs text-gray-500 uppercase tracking-wider border-b border-noir-700 pb-2 flex justify-between">
+                        <span>Detective Handle</span>
+                        <span>Status</span>
+                    </div>
+                    <div id="successSolversList" class="space-y-2 text-sm">
+                        <!-- Populated dynamically by JS -->
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button onclick="showStage('stageAccusation')" class="bg-amberGold hover:bg-amber-400 text-noir-900 font-bold px-8 py-3.5 rounded-xl shadow-xl transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 mx-auto">
+                        <span>Proceed to Accusation Phase</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
         <!-- STAGE 5: ACCUSATION & FINAL SUSPECT SELECTION -->
         <section id="stageAccusation" class="hidden space-y-6">
             <div class="bg-noir-800 border border-noir-700 rounded-2xl p-6 md:p-8 shadow-2xl space-y-6">
@@ -522,9 +557,6 @@
                     <p class="text-gray-300 max-w-xl mx-auto leading-relaxed">
                         You slap the handcuffs on <strong class="text-teal-400">Archie Microbus</strong>! The Impenetrable Wall couldn't stand up against your ecological deduction. You have proved yourself once again that you are the best detective in the world.
                     </p>
-                </div>
-                <div class="p-4 bg-noir-900 rounded-xl border border-noir-700 text-sm font-courier text-amberGold">
-                    🏆 Your username <span id="winnerDisplay" class="font-bold underline"></span> has been added to <strong>SOLVERS OF THE IMPOSSIBLE</strong>!
                 </div>
                 <button onclick="restartGame()" class="bg-emeraldBio hover:bg-emerald-600 text-noir-900 font-bold px-8 py-3 rounded-xl shadow-lg transition">
                     Play Again
@@ -745,7 +777,7 @@
 
         // Navigation Functions
         function showStage(stageId) {
-            const stages = ['stageIntro', 'stageSuspects', 'stageSolvers', 'stageQuestions', 'stageFinalBoss', 'stageAccusation', 'stageVerdict'];
+            const stages = ['stageIntro', 'stageSuspects', 'stageSolvers', 'stageQuestions', 'stageFinalBoss', 'stageSolverSuccess', 'stageAccusation', 'stageVerdict'];
             stages.forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
@@ -899,27 +931,37 @@
             resultEl.classList.remove('hidden');
 
             if (isMathCorrect && hasKeywords && isConcise) {
-                resultEl.className = "p-4 rounded-xl border border-emeraldBio bg-emeraldBio/10 text-emeraldBio font-courier text-sm space-y-2";
-                resultEl.innerHTML = `
-                    <div class="font-bold flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> Final Challenge Passed!</div>
-                    <p>Your mathematical calculations and ecological deduction are flawless. You have mastered the web of life!</p>
-                `;
-
-                // Add username to solvers list
+                // Add username to solvers list automatically upon success
                 const username = getPlayerUsername();
                 if (!hallOfFameSolvers.includes(username)) {
                     hallOfFameSolvers.unshift(username);
                 }
 
+                // Render success solvers list view
+                const successListEl = document.getElementById('successSolversList');
+                successListEl.innerHTML = '';
+                hallOfFameSolvers.forEach((name) => {
+                    const item = document.createElement('div');
+                    item.className = 'flex items-center justify-between p-2 rounded bg-noir-800 border border-noir-700';
+                    item.innerHTML = `
+                        <span class="text-amberGold font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-award"></i> ${name}
+                        </span>
+                        <span class="text-xs text-emeraldBio">SOLVER</span>
+                    `;
+                    successListEl.appendChild(item);
+                });
+
+                // Instantly transition to the Solvers of the Impossible screen
+                showStage('stageSolverSuccess');
+            } else {
+                resultEl.className = "p-4 rounded-xl border border-crimsonAlert bg-crimsonAlert/10 text-crimsonAlert font-courier text-sm";
+                resultEl.innerText = "Incorrect.";
+
+                // Instantly advance straight to accusation stage without getting stuck
                 setTimeout(() => {
                     showStage('stageAccusation');
-                }, 2000);
-            } else {
-                resultEl.className = "p-4 rounded-xl border border-crimsonAlert bg-crimsonAlert/10 text-crimsonAlert font-courier text-sm space-y-2";
-                resultEl.innerHTML = `
-                    <div class="font-bold flex items-center gap-2"><i class="fa-solid fa-circle-xmark"></i> Evaluation Failed</div>
-                    <p>Check your math (0.05 ppm × 10 × 10 × 10 = 50.0 ppm) and ensure your explanation contains 'biomagnification', 'trophic', and 'accumulat' within 10-75 words without markdown/bullets.</p>
-                `;
+                }, 1200);
             }
         }
 
