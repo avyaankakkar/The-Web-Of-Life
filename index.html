@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE WEB OF LIFE - Agent Bio</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome CDN for Detective & Biology Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -38,24 +35,13 @@
             }
         }
     </script>
-    
+
     <style>
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #131720;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2A3346;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #E6B800;
-        }
-        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #131720; }
+        ::-webkit-scrollbar-thumb { background: #2A3346; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #E6B800; }
+
         .corrupted-text {
             font-family: 'Courier Prime', monospace;
             color: #ef4444;
@@ -63,7 +49,7 @@
             border: 1px dashed #ef4444;
             text-shadow: 0 0 4px rgba(239, 68, 68, 0.6);
         }
-        
+
         .clean-clue {
             font-family: 'Courier Prime', monospace;
             color: #10b981;
@@ -80,7 +66,7 @@
     </style>
 </head>
 <body class="bg-noir-900 text-gray-200 font-sans min-h-screen flex flex-col justify-between selection:bg-amberGold selection:text-noir-900 overflow-x-hidden">
-    
+
     <!-- Top Navigation Header -->
     <header class="border-b border-noir-700 bg-noir-800/90 backdrop-blur sticky top-0 z-40 px-4 py-3 shadow-lg">
         <div class="max-w-6xl mx-auto flex items-center justify-between">
@@ -94,7 +80,6 @@
                 </div>
             </div>
 
-            <!-- Action Buttons -->
             <div class="flex items-center gap-2 md:gap-4">
                 <button id="openNotebookBtn" onclick="toggleNotebookModal()" class="hidden bg-noir-700 hover:bg-noir-600 border border-amberGold/30 text-amberGold px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
                     <i class="fa-solid fa-book-bookmark"></i>
@@ -112,30 +97,29 @@
     <!-- Main Game Container -->
     <main class="flex-grow max-w-5xl w-full mx-auto p-4 md:p-6 my-4 flex flex-col justify-center">
 
-        <!-- STAGE 1: INTRO SEQUENCE -->
+        <!-- STAGE 1: INTRO -->
         <section id="stageIntro" class="space-y-6">
             <div class="bg-noir-800 border border-noir-700 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden space-y-6">
                 <div class="absolute -top-10 -right-10 text-noir-700 text-9xl opacity-40 pointer-events-none">
                     <i class="fa-solid fa-dna"></i>
                 </div>
-                
+
                 <div class="relative z-10 space-y-4">
                     <span class="inline-block px-3 py-1 bg-amberGold/10 border border-amberGold/30 text-amberGold font-courier text-xs uppercase tracking-widest rounded-full">
                         Incoming Dispatch
                     </span>
                     <h2 class="font-cinzel text-3xl md:text-4xl font-extrabold text-white">THE WEB OF LIFE</h2>
-                    
+
                     <p class="text-gray-300 leading-relaxed max-w-3xl text-base md:text-lg">
                         You are Agent Bio, Lord of Deduction. There has been a hit and run case. Fortunately, the victim is fine, but the criminal is still on the loose. They erased all evidence, except a notebook with riddles. Our greatest detectives have tried solving them, but they failed. Now you are our only hope.
                     </p>
                 </div>
 
-                <!-- Detective Username Input -->
                 <div class="bg-noir-900 border border-amberGold/30 p-4 rounded-xl max-w-md space-y-2">
                     <label for="usernameInput" class="block text-xs font-courier uppercase text-amberGold font-bold">
                         <i class="fa-solid fa-id-badge mr-1"></i> Enter Detective Username:
                     </label>
-                    <input type="text" id="usernameInput" placeholder="Agent Bio" value="Agent Bio"
+                    <input type="text" id="usernameInput" placeholder="Agent Bio" value="Agent Bio" maxlength="24"
                            class="w-full bg-noir-800 border border-noir-600 rounded-lg px-4 py-2 text-white font-courier focus:outline-none focus:border-amberGold transition text-sm">
                 </div>
 
@@ -152,16 +136,14 @@
             </div>
         </section>
 
-        <!-- STAGE 2: SUSPECT SHOWCASE & NOTEBOOK WARNING -->
+        <!-- STAGE 2: SUSPECTS -->
         <section id="stageSuspects" class="hidden space-y-6">
             <div class="text-center max-w-2xl mx-auto space-y-2">
                 <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-amberGold">PRIMARY SUSPECTS</h2>
                 <p class="text-gray-400 text-sm">Study their profiles carefully. Each riddle clue will reveal crucial identity details.</p>
             </div>
 
-            <!-- 6 Suspect Cards Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Suspect 1 -->
                 <div class="bg-noir-800 border border-noir-700 rounded-xl p-5 hover:border-amberGold/50 transition group space-y-3">
                     <div class="flex items-center gap-4">
                         <div class="w-14 h-14 rounded-full bg-blue-950/60 border border-blue-500/30 flex items-center justify-center text-blue-400 text-2xl">
@@ -175,7 +157,6 @@
                     <p class="text-xs text-gray-400 leading-relaxed">Top-tier strategist with supreme analytical mind, known for calculated ecological footprint.</p>
                 </div>
 
-                <!-- Suspect 2 -->
                 <div class="bg-noir-800 border border-noir-700 rounded-xl p-5 hover:border-amberGold/50 transition group space-y-3">
                     <div class="flex items-center gap-4">
                         <div class="w-14 h-14 rounded-full bg-purple-950/60 border border-purple-500/30 flex items-center justify-center text-purple-400 text-2xl">
@@ -189,7 +170,6 @@
                     <p class="text-xs text-gray-400 leading-relaxed">Master of disguises capable of altering physical forms to blend into any aqueous habitat seamlessly.</p>
                 </div>
 
-                <!-- Suspect 3 -->
                 <div class="bg-noir-800 border border-noir-700 rounded-xl p-5 hover:border-amberGold/50 transition group space-y-3">
                     <div class="flex items-center gap-4">
                         <div class="w-14 h-14 rounded-full bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl">
@@ -203,7 +183,6 @@
                     <p class="text-xs text-gray-400 leading-relaxed">High-society magnate heavily invested in rare flora, canopy real estate, and nutrient-rich soil.</p>
                 </div>
 
-                <!-- Suspect 4 -->
                 <div class="bg-noir-800 border border-noir-700 rounded-xl p-5 hover:border-amberGold/50 transition group space-y-3">
                     <div class="flex items-center gap-4">
                         <div class="w-14 h-14 rounded-full bg-red-950/60 border border-red-500/30 flex items-center justify-center text-red-400 text-2xl">
@@ -217,7 +196,6 @@
                     <p class="text-xs text-gray-400 leading-relaxed">Elusive shadow operative operating in damp understory log reserves and subterranean hyphal webs.</p>
                 </div>
 
-                <!-- Suspect 5 -->
                 <div class="bg-noir-800 border border-noir-700 rounded-xl p-5 hover:border-amberGold/50 transition group space-y-3">
                     <div class="flex items-center gap-4">
                         <div class="w-14 h-14 rounded-full bg-teal-950/60 border border-teal-500/30 flex items-center justify-center text-teal-400 text-2xl">
@@ -231,7 +209,6 @@
                     <p class="text-xs text-gray-400 leading-relaxed">Microscopic powerhouse equipped with nearly unbreakable cellular defenses, unfazed by heavy obstacles.</p>
                 </div>
 
-                <!-- Suspect 6 -->
                 <div class="bg-noir-800 border border-noir-700 rounded-xl p-5 hover:border-amberGold/50 transition group space-y-3">
                     <div class="flex items-center gap-4">
                         <div class="w-14 h-14 rounded-full bg-amber-950/60 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl">
@@ -246,7 +223,6 @@
                 </div>
             </div>
 
-            <!-- Notebook Warning Letter -->
             <div class="bg-noir-800 border border-amberGold/30 rounded-2xl p-6 font-courier space-y-3 relative overflow-hidden">
                 <div class="flex items-center justify-between border-b border-noir-700 pb-3">
                     <span class="text-amberGold text-sm font-bold flex items-center gap-2">
@@ -268,7 +244,7 @@
             </div>
         </section>
 
-        <!-- STAGE 2.5: SOLVERS OF THE IMPOSSIBLE -->
+        <!-- STAGE 2.5: SOLVERS -->
         <section id="stageSolvers" class="hidden space-y-6">
             <div class="bg-noir-800 border border-amberGold/40 rounded-2xl p-6 md:p-8 shadow-2xl text-center space-y-6">
                 <div class="space-y-2">
@@ -283,15 +259,12 @@
                     </p>
                 </div>
 
-                <!-- Hall of Fame List Container -->
                 <div class="bg-noir-900 border border-noir-700 rounded-xl p-6 max-w-lg mx-auto text-left space-y-3 font-courier">
                     <div class="text-xs text-gray-500 uppercase tracking-wider border-b border-noir-700 pb-2 flex justify-between">
                         <span>Detective Handle</span>
                         <span>Status</span>
                     </div>
-                    <div id="solversList" class="space-y-2 text-sm">
-                        <!-- Populated dynamically by JS -->
-                    </div>
+                    <div id="solversList" class="space-y-2 text-sm"></div>
                 </div>
 
                 <div class="pt-4">
@@ -303,9 +276,8 @@
             </div>
         </section>
 
-        <!-- STAGE 3: INTERACTIVE RIDDLE QUESTIONS -->
+        <!-- STAGE 3: RIDDLES -->
         <section id="stageQuestions" class="hidden space-y-6">
-            <!-- Progress Bar -->
             <div class="bg-noir-800 border border-noir-700 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-3 w-full md:w-auto">
                     <span class="font-courier text-xs uppercase tracking-widest text-amberGold bg-amberGold/10 px-3 py-1 rounded-full border border-amberGold/30">
@@ -313,25 +285,18 @@
                     </span>
                     <h3 class="font-cinzel font-bold text-white text-sm md:text-base hidden sm:block">Case Evidence Log</h3>
                 </div>
-                
+
                 <div class="w-full md:w-64 bg-noir-900 h-3 rounded-full overflow-hidden border border-noir-700">
-                    <div id="progressBar" class="bg-gradient-to-r from-amberGold to-emeraldBio h-full w-10 transition-all duration-500"></div>
+                    <div id="progressBar" class="bg-gradient-to-r from-amberGold to-emeraldBio h-full transition-all duration-500" style="width:0%"></div>
                 </div>
             </div>
 
-            <!-- Active Question Card -->
             <div class="bg-noir-800 border border-noir-700 rounded-2xl p-6 md:p-8 shadow-2xl space-y-6 relative">
-                <div id="questionPrompt" class="text-gray-100 text-base md:text-lg font-medium leading-relaxed border-b border-noir-700 pb-5">
-                    <!-- Question text -->
-                </div>
+                <div id="questionPrompt" class="text-gray-100 text-base md:text-lg font-medium leading-relaxed border-b border-noir-700 pb-5"></div>
 
-                <!-- 4 Options Container -->
-                <div id="optionsContainer" class="grid grid-cols-1 gap-3">
-                    <!-- Options -->
-                </div>
+                <div id="optionsContainer" class="grid grid-cols-1 gap-3"></div>
 
-                <!-- Feedback & Clue Display Box -->
-                <div id="feedbackBox" class="hidden rounded-xl p-5 space-y-3 transition">
+                <div id="feedbackBox" class="hidden rounded-xl p-5 space-y-3 transition border">
                     <div id="feedbackStatus" class="font-bold flex items-center gap-2"></div>
                     <div id="feedbackClue" class="p-4 rounded-lg text-sm leading-relaxed"></div>
                     <div class="flex justify-end pt-2">
@@ -363,35 +328,28 @@
                     <div class="p-3 bg-noir-800 rounded-lg text-center text-emeraldBio font-bold">
                         Algae (0.05 ppm) ➔ Zooplankton ➔ Small Fish ➔ Apex Pike
                     </div>
-                    <div class="p-3 bg-noir-800/80 border border-amberGold/30 rounded-lg text-amberGold text-center text-xs space-y-1">
-                        <p class="font-bold"><i class="fa-solid fa-lightbulb"></i> CHEAT SHEET ANSWER:</p>
-                        <p>1. Calculation: <strong class="text-white">50</strong> (or 50.0)</p>
-                        <p>2. Explanation: <strong class="text-white">Due to biomagnification across trophic levels, persistent toxins accumulate in apex predators because each step multiplies concentration, causing reproductive failure despite low baseline levels.</strong></p>
-                    </div>
                 </div>
 
                 <form id="bioForm" onsubmit="handleBioSubmit(event)" class="space-y-6">
-                    <!-- Question 1 -->
                     <div class="space-y-2">
                         <label class="block text-sm font-semibold text-gray-200">
                             1. Calculate the exact toxic concentration (in ppm) at the Tertiary Consumer (Apex Pike) level:
                         </label>
                         <div class="relative max-w-xs">
-                            <input type="number" step="0.1" id="ppmInput" required placeholder="Enter ppm value..." 
-                                   class="w-full bg-noir-900 border border-noir-600 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-amberGold transition font-courier">
-                            <span class="absolute right-3 top-2.5 text-xs text-gray-400 font-courier">ppm</span>
+                            <input type="number" step="0.1" id="ppmInput" required placeholder="Enter ppm value..."
+                                   class="w-full bg-noir-900 border border-noir-600 rounded-lg px-4 py-2.5 pr-14 text-white focus:outline-none focus:border-amberGold transition font-courier">
+                            <span class="absolute right-3 top-3 text-xs text-gray-400 font-courier">ppm</span>
                         </div>
                     </div>
 
-                    <!-- Question 2 -->
                     <div class="space-y-2">
-                        <div class="flex justify-between items-center">
+                        <div class="flex justify-between items-center gap-2">
                             <label class="block text-sm font-semibold text-gray-200">
                                 2. Explain why a low concentration harmless to algae causes reproductive failure in apex predators (Keep under 75 words):
                             </label>
-                            <span id="wordCounter" class="text-xs font-courier text-gray-400">0 / 75 words</span>
+                            <span id="wordCounter" class="text-xs font-courier text-gray-400 whitespace-nowrap">0 / 75 words</span>
                         </div>
-                        <textarea id="explanationInput" rows="4" required oninput="updateWordCount()" placeholder="Type your ecological explanation..." 
+                        <textarea id="explanationInput" rows="4" required oninput="updateWordCount()" placeholder="Type your ecological explanation..."
                                   class="w-full bg-noir-900 border border-noir-600 rounded-lg p-4 text-white focus:outline-none focus:border-amberGold transition text-sm leading-relaxed font-sans"></textarea>
                     </div>
 
@@ -405,7 +363,7 @@
             </div>
         </section>
 
-        <!-- STAGE 4.5: SOLVERS OF THE IMPOSSIBLE SUCCESS SCREEN -->
+        <!-- STAGE 4.5: SOLVER SUCCESS -->
         <section id="stageSolverSuccess" class="hidden space-y-6">
             <div class="bg-noir-800 border border-amberGold/40 rounded-2xl p-6 md:p-8 shadow-2xl text-center space-y-6">
                 <div class="space-y-2">
@@ -420,15 +378,12 @@
                     </p>
                 </div>
 
-                <!-- Hall of Fame List Container -->
                 <div class="bg-noir-900 border border-noir-700 rounded-xl p-6 max-w-lg mx-auto text-left space-y-3 font-courier">
                     <div class="text-xs text-gray-500 uppercase tracking-wider border-b border-noir-700 pb-2 flex justify-between">
                         <span>Detective Handle</span>
                         <span>Status</span>
                     </div>
-                    <div id="successSolversList" class="space-y-2 text-sm">
-                        <!-- Populated dynamically by JS -->
-                    </div>
+                    <div id="successSolversList" class="space-y-2 text-sm"></div>
                 </div>
 
                 <div class="pt-4">
@@ -440,7 +395,7 @@
             </div>
         </section>
 
-        <!-- STAGE 5: ACCUSATION & FINAL SUSPECT SELECTION -->
+        <!-- STAGE 5: ACCUSATION -->
         <section id="stageAccusation" class="hidden space-y-6">
             <div class="bg-noir-800 border border-noir-700 rounded-2xl p-6 md:p-8 shadow-2xl space-y-6">
                 <div class="text-center space-y-2">
@@ -451,7 +406,6 @@
                     </p>
                 </div>
 
-                <!-- Notebook Quick Drawer Banner -->
                 <div class="bg-noir-900 border border-amberGold/30 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div class="flex items-center gap-3">
                         <i class="fa-solid fa-book-open text-amberGold text-2xl"></i>
@@ -466,14 +420,10 @@
                     </button>
                 </div>
 
-                <!-- 6 Suspect Options for Accusation -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Suspect 1 -->
                     <button onclick="selectSuspect('1')" class="border border-noir-700 bg-noir-900 hover:border-amberGold/60 rounded-xl p-4 text-left transition group space-y-2">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-blue-950 text-blue-400 flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-user-tie"></i>
-                            </div>
+                            <div class="w-10 h-10 rounded-full bg-blue-950 text-blue-400 flex items-center justify-center text-lg"><i class="fa-solid fa-user-tie"></i></div>
                             <div>
                                 <h4 class="font-bold text-white text-sm">1. James Animalia</h4>
                                 <span class="text-xs text-blue-400 font-courier">Human</span>
@@ -481,12 +431,9 @@
                         </div>
                     </button>
 
-                    <!-- Suspect 2 -->
                     <button onclick="selectSuspect('2')" class="border border-noir-700 bg-noir-900 hover:border-amberGold/60 rounded-xl p-4 text-left transition group space-y-2">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-purple-950 text-purple-400 flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-bacteria"></i>
-                            </div>
+                            <div class="w-10 h-10 rounded-full bg-purple-950 text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-bacteria"></i></div>
                             <div>
                                 <h4 class="font-bold text-white text-sm">2. Amelia Protista</h4>
                                 <span class="text-xs text-purple-400 font-courier">Amoeba</span>
@@ -494,12 +441,9 @@
                         </div>
                     </button>
 
-                    <!-- Suspect 3 -->
                     <button onclick="selectSuspect('3')" class="border border-noir-700 bg-noir-900 hover:border-amberGold/60 rounded-xl p-4 text-left transition group space-y-2">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-emerald-950 text-emerald-400 flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-seedling"></i>
-                            </div>
+                            <div class="w-10 h-10 rounded-full bg-emerald-950 text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-seedling"></i></div>
                             <div>
                                 <h4 class="font-bold text-white text-sm">3. Lord Corpsuf Plantae</h4>
                                 <span class="text-xs text-emerald-400 font-courier">Corpse Flower</span>
@@ -507,12 +451,9 @@
                         </div>
                     </button>
 
-                    <!-- Suspect 4 -->
                     <button onclick="selectSuspect('4')" class="border border-noir-700 bg-noir-900 hover:border-amberGold/60 rounded-xl p-4 text-left transition group space-y-2">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-red-950 text-red-400 flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-disease"></i>
-                            </div>
+                            <div class="w-10 h-10 rounded-full bg-red-950 text-red-400 flex items-center justify-center text-lg"><i class="fa-solid fa-disease"></i></div>
                             <div>
                                 <h4 class="font-bold text-white text-sm">4. Mossrim Fungi</h4>
                                 <span class="text-xs text-red-400 font-courier">Mushroom</span>
@@ -523,9 +464,7 @@
                     <!-- Suspect 5 (CULPRIT) -->
                     <button onclick="selectSuspect('5')" class="border border-noir-700 bg-noir-900 hover:border-amberGold/60 rounded-xl p-4 text-left transition group space-y-2">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-teal-950 text-teal-400 flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-shield-halved"></i>
-                            </div>
+                            <div class="w-10 h-10 rounded-full bg-teal-950 text-teal-400 flex items-center justify-center text-lg"><i class="fa-solid fa-shield-halved"></i></div>
                             <div>
                                 <h4 class="font-bold text-white text-sm">5. Archie Microbus</h4>
                                 <span class="text-xs text-teal-400 font-courier">Microbe</span>
@@ -533,12 +472,9 @@
                         </div>
                     </button>
 
-                    <!-- Suspect 6 -->
                     <button onclick="selectSuspect('6')" class="border border-noir-700 bg-noir-900 hover:border-amberGold/60 rounded-xl p-4 text-left transition group space-y-2">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-amber-950 text-amber-400 flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-virus"></i>
-                            </div>
+                            <div class="w-10 h-10 rounded-full bg-amber-950 text-amber-400 flex items-center justify-center text-lg"><i class="fa-solid fa-virus"></i></div>
                             <div>
                                 <h4 class="font-bold text-white text-sm">6. Buster Bacteria</h4>
                                 <span class="text-xs text-amber-400 font-courier">Bacteria</span>
@@ -549,16 +485,16 @@
             </div>
         </section>
 
-        <!-- STAGE 6: VERDICT OUTCOME SCREENS -->
+        <!-- STAGE 6: VERDICT -->
         <section id="stageVerdict" class="hidden space-y-6">
-            <!-- WINNING SCREEN -->
+            <!-- WIN -->
             <div id="verdictWin" class="hidden bg-noir-800 border-2 border-emeraldBio rounded-2xl p-8 text-center space-y-6 shadow-2xl">
                 <div class="w-20 h-20 bg-emeraldBio/20 border border-emeraldBio text-emeraldBio rounded-full flex items-center justify-center text-4xl mx-auto shadow-lg shadow-emeraldBio/20">
                     <i class="fa-solid fa-handcuffs"></i>
                 </div>
                 <div class="space-y-2">
                     <span class="font-courier text-xs text-emeraldBio font-bold uppercase tracking-widest">Case Closed</span>
-                    <h2 class="font-cinzel text-3xl md:text-4xl font-extrabold text-white">CONGRATULATIONS!</h2>
+                    <h2 class="font-cinzel text-3xl md:text-4xl font-extrabold text-white">CONGRATULATIONS, <span id="winnerDisplay">Agent Bio</span>!</h2>
                     <p class="text-gray-300 max-w-xl mx-auto leading-relaxed">
                         You slap the handcuffs on <strong class="text-teal-400">Archie Microbus</strong>! The Impenetrable Wall couldn't stand up against your ecological deduction. You have proved yourself once again that you are the best detective in the world.
                     </p>
@@ -568,96 +504,124 @@
                 </button>
             </div>
 
-    <!-- Game Logic Script -->
+            <!-- LOSE -->
+            <div id="verdictLose" class="hidden bg-noir-800 border-2 border-crimsonAlert rounded-2xl p-8 text-center space-y-6 shadow-2xl">
+                <div class="w-20 h-20 bg-crimsonAlert/20 border border-crimsonAlert text-crimsonAlert rounded-full flex items-center justify-center text-4xl mx-auto shadow-lg shadow-crimsonAlert/20">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </div>
+                <div class="space-y-2">
+                    <span class="font-courier text-xs text-crimsonAlert font-bold uppercase tracking-widest">Wrong Suspect</span>
+                    <h2 class="font-cinzel text-3xl md:text-4xl font-extrabold text-white">THE CULPRIT ESCAPES</h2>
+                    <p class="text-gray-300 max-w-xl mx-auto leading-relaxed">
+                        Your accusation fell flat, and the real criminal slipped away into the web of life. Review the notebook clues once more and try again.
+                    </p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <button onclick="showStage('stageAccusation')" class="bg-amberGold hover:bg-amber-400 text-noir-900 font-bold px-8 py-3 rounded-xl shadow-lg transition">
+                        Accuse Someone Else
+                    </button>
+                    <button onclick="restartGame()" class="bg-noir-700 hover:bg-noir-600 border border-noir-600 text-gray-200 font-bold px-8 py-3 rounded-xl shadow-lg transition">
+                        Restart Timeline
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- NOTEBOOK MODAL -->
+    <div id="notebookModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target===this) toggleNotebookModal()">
+        <div class="notebook-texture border border-amberGold/40 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-noir-600 pb-3">
+                <h3 class="font-cinzel text-xl font-bold text-amberGold flex items-center gap-2">
+                    <i class="fa-solid fa-book-bookmark"></i> Case Notebook
+                </h3>
+                <button onclick="toggleNotebookModal()" class="text-gray-400 hover:text-white text-xl" aria-label="Close notebook">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="notebookTabs" class="flex flex-wrap gap-2"></div>
+            <div id="notebookDetailView" class="p-5 rounded-xl border border-noir-700 bg-noir-900 flex items-center justify-center text-center text-gray-500 font-courier text-sm">
+                Select a riddle tab to read its clue.
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase (hall of fame) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        let firebaseConfig = {};
+        try {
+            firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        } catch (e) {
+            console.warn("Invalid Firebase config; running in local mode.");
+        }
 
-        let app, db, auth, userId = null;
-        let hallOfFameSolvers = [];
+        let db = null;
+        let solvers = [];
+
+        const refresh = () => {
+            if (typeof window.renderSolversList === 'function') window.renderSolversList();
+        };
+
+        function solversDocRef() {
+            return doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame_global');
+        }
 
         async function initFirebase() {
             try {
-                if (Object.keys(firebaseConfig).length > 0) {
-                    app = initializeApp(firebaseConfig);
-                    db = getFirestore(app);
-                    auth = getAuth(app);
-
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
-                    userId = auth.currentUser?.uid || crypto.randomUUID();
-                    
-                    // Fetch initial data immediately on load from Firestore
-                    const solversRef = doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame_global');
-                    const docSnap = await getDoc(solversRef);
-                    if (docSnap.exists()) {
-                        hallOfFameSolvers = docSnap.data().solvers || [];
-                        renderSolversList();
-                    }
-
-                    setupRealtimeSolvers();
-                } else {
+                if (Object.keys(firebaseConfig).length === 0) {
                     console.warn("Firebase config not available. Running in local mode.");
+                    return;
                 }
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                const auth = getAuth(app);
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                const snap = await getDoc(solversDocRef());
+                if (snap.exists()) {
+                    solvers = snap.data().solvers || [];
+                    refresh();
+                }
+
+                onSnapshot(solversDocRef(), (docSnap) => {
+                    solvers = docSnap.exists() ? (docSnap.data().solvers || []) : [];
+                    refresh();
+                }, (error) => console.error("Firestore snapshot error:", error));
             } catch (err) {
                 console.error("Firebase init error:", err);
+                db = null; // fall back to local mode
             }
         }
 
-        function setupRealtimeSolvers() {
+        window.publishSolverToCloud = async function (username) {
+            if (!solvers.includes(username)) solvers.unshift(username);
+            refresh();
             if (!db) return;
-            // RULE 1: Use strictly /artifacts/{appId}/public/data/{collectionName}
-            const solversRef = doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame_global');
-            onSnapshot(solversRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    hallOfFameSolvers = docSnap.data().solvers || [];
-                } else {
-                    hallOfFameSolvers = [];
-                }
-                renderSolversList();
-            }, (error) => {
-                console.error("Firestore snapshot error:", error);
-            });
-        }
-
-        async function publishSolverToCloud(username) {
-            if (!db) {
-                if (!hallOfFameSolvers.includes(username)) {
-                    hallOfFameSolvers.unshift(username);
-                }
-                renderSolversList();
-                return;
-            }
             try {
-                // Ensure local array includes the solver if not already present
-                if (!hallOfFameSolvers.includes(username)) {
-                    hallOfFameSolvers.unshift(username);
-                }
-                const solversRef = doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame_global');
-                // Use setDoc with merge: true to update the cloud document immediately
-                await setDoc(solversRef, { solvers: hallOfFameSolvers }, { merge: true });
+                await setDoc(solversDocRef(), { solvers }, { merge: true });
             } catch (err) {
                 console.error("Error publishing solver:", err);
             }
-        }
+        };
 
-        window.publishSolverToCloud = publishSolverToCloud;
-        window.getHallOfFameSolvers = () => hallOfFameSolvers;
+        window.getHallOfFameSolvers = () => solvers;
 
-        window.addEventListener('DOMContentLoaded', () => {
-            initFirebase();
-        });
+        // Modules run after the document is parsed, so no DOMContentLoaded wait is needed.
+        initFirebase();
     </script>
 
+    <!-- Game logic -->
     <script>
-        // Game Questions Data (All 10 Questions with Exact Python Clues)
         const questionsData = [
             {
                 id: 1,
@@ -791,17 +755,19 @@
             }
         ];
 
-        // Global State Variables
         let currentQuestionIndex = 0;
         let notebookClues = {}; // key: questionId, value: { clueText, isClean }
-        let hallOfFameSolvers = [];
 
-        // Navigation Functions
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+        }
+
+        // ---------- Navigation ----------
         function showStage(stageId) {
             const stages = ['stageIntro', 'stageSuspects', 'stageSolvers', 'stageQuestions', 'stageFinalBoss', 'stageSolverSuccess', 'stageAccusation', 'stageVerdict'];
-            stages.forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-            });
+            stages.forEach(id => document.getElementById(id).classList.add('hidden'));
             document.getElementById(stageId).classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -820,28 +786,32 @@
             showStage('stageSolvers');
         }
 
-        function renderSolversList() {
-            const listEl = document.getElementById('solversList');
-            listEl.innerHTML = '';
-            
-            if (hallOfFameSolvers.length === 0) {
-                listEl.innerHTML = `<div class="text-center text-gray-500 italic py-3 font-courier text-xs">No solvers yet. Pass the final riddle to etch your name in history!</div>`;
-                return;
-            }
-
-            hallOfFameSolvers.forEach((name, idx) => {
-                const item = document.createElement('div');
-                item.className = 'flex items-center justify-between p-2 rounded bg-noir-800 border border-noir-700';
-                item.innerHTML = `
+        // ---------- Hall of fame ----------
+        function solverRowHtml(name) {
+            return `
+                <div class="flex items-center justify-between p-2 rounded bg-noir-800 border border-noir-700">
                     <span class="text-amberGold font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-award"></i> ${name}
+                        <i class="fa-solid fa-award"></i> ${escapeHtml(name)}
                     </span>
                     <span class="text-xs text-emeraldBio">SOLVER</span>
-                `;
-                listEl.appendChild(item);
-            });
+                </div>`;
         }
 
+        // Renders both the intro hall-of-fame and the success-screen hall-of-fame.
+        function renderSolversList() {
+            const solvers = typeof window.getHallOfFameSolvers === 'function' ? window.getHallOfFameSolvers() : [];
+            const html = solvers.length === 0
+                ? `<div class="text-center text-gray-500 italic py-3 font-courier text-xs">No solvers yet. Pass the final riddle to etch your name in history!</div>`
+                : solvers.map(solverRowHtml).join('');
+
+            ['solversList', 'successSolversList'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = html;
+            });
+        }
+        window.renderSolversList = renderSolversList;
+
+        // ---------- Riddles ----------
         function startRiddles() {
             document.getElementById('openNotebookBtn').classList.remove('hidden');
             currentQuestionIndex = 0;
@@ -851,67 +821,59 @@
             showStage('stageQuestions');
         }
 
-        // Render Question
         function renderQuestion() {
             const q = questionsData[currentQuestionIndex];
-            
+
             document.getElementById('currentQuestionNum').innerText = q.id;
-            const progressPct = ((currentQuestionIndex) / questionsData.length) * 100;
-            document.getElementById('progressBar').style.width = `${progressPct}%`;
-            
+            document.getElementById('progressBar').style.width = `${(currentQuestionIndex / questionsData.length) * 100}%`;
             document.getElementById('questionPrompt').innerText = `${q.id}. ${q.prompt}`;
-            
+
             const container = document.getElementById('optionsContainer');
             container.innerHTML = '';
-            
             document.getElementById('feedbackBox').classList.add('hidden');
-            
+
             q.options.forEach((optText, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'w-full text-left p-4 rounded-xl border border-noir-700 bg-noir-900 hover:border-amberGold/50 hover:bg-noir-800 transition text-sm leading-relaxed flex items-start gap-3 group';
                 btn.onclick = () => handleAnswerChoice(idx);
                 btn.innerHTML = `
                     <span class="w-6 h-6 rounded-full bg-noir-800 border border-noir-600 flex items-center justify-center text-xs font-courier text-amberGold group-hover:border-amberGold shrink-0 mt-0.5">${idx + 1}</span>
-                    <span class="text-gray-300 group-hover:text-white">${optText.substring(3)}</span>
+                    <span class="text-gray-300 group-hover:text-white">${escapeHtml(optText.replace(/^\d+\.\s*/, ''))}</span>
                 `;
                 container.appendChild(btn);
             });
         }
 
-        // Handle Answer Choice
         function handleAnswerChoice(selectedIdx) {
             const q = questionsData[currentQuestionIndex];
             const isCorrect = (selectedIdx === q.correctIndex);
-            
-            // Disable option buttons
-            const optionBtns = document.getElementById('optionsContainer').querySelectorAll('button');
-            optionBtns.forEach(b => b.disabled = true);
 
-            // Record clue in notebook
+            document.getElementById('optionsContainer').querySelectorAll('button').forEach(b => b.disabled = true);
+
             notebookClues[q.id] = {
                 clueText: isCorrect ? q.cleanClue : q.corruptedClue,
                 isClean: isCorrect
             };
             updateBadgeCount();
 
-            // Show feedback box
+            document.getElementById('progressBar').style.width = `${((currentQuestionIndex + 1) / questionsData.length) * 100}%`;
+
             const feedbackBox = document.getElementById('feedbackBox');
             const statusEl = document.getElementById('feedbackStatus');
             const clueEl = document.getElementById('feedbackClue');
-            
+
             feedbackBox.classList.remove('hidden', 'border-emeraldBio', 'border-crimsonAlert', 'bg-emeraldBio/10', 'bg-crimsonAlert/10');
-            
+
             if (isCorrect) {
                 feedbackBox.classList.add('border-emeraldBio', 'bg-emeraldBio/10');
                 statusEl.innerHTML = `<i class="fa-solid fa-check-circle text-emeraldBio text-lg"></i> <span class="text-emeraldBio">Correct! Clue Secured:</span>`;
                 clueEl.className = "clean-clue p-4 rounded-lg text-sm leading-relaxed font-courier";
-                clueEl.innerText = q.cleanClue;
             } else {
                 feedbackBox.classList.add('border-crimsonAlert', 'bg-crimsonAlert/10');
                 statusEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-crimsonAlert text-lg"></i> <span class="text-crimsonAlert">Incorrect! Clue Corrupted:</span>`;
                 clueEl.className = "corrupted-text p-4 rounded-lg text-sm leading-relaxed font-courier";
-                clueEl.innerText = q.corruptedClue;
             }
+            clueEl.innerText = notebookClues[q.id].clueText;
         }
 
         function nextQuestion() {
@@ -923,99 +885,47 @@
             }
         }
 
-        // Word Counter for Boss Explanation
-        function updateWordCount() {
-            const text = document.getElementById('explanationInput').value;
-            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
-            const counterEl = document.getElementById('wordCounter');
-            counterEl.innerText = `${words} / 75 words`;
-            if (words > 75) {
-                counterEl.classList.add('text-crimsonAlert');
-            } else {
-                counterEl.classList.remove('text-crimsonAlert');
-            }
+        // ---------- Final boss ----------
+        function countWords(text) {
+            const t = text.trim();
+            return t === '' ? 0 : t.split(/\s+/).length;
         }
 
-        // Final Boss Form Submission
+        function updateWordCount() {
+            const words = countWords(document.getElementById('explanationInput').value);
+            const counterEl = document.getElementById('wordCounter');
+            counterEl.innerText = `${words} / 75 words`;
+            counterEl.classList.toggle('text-crimsonAlert', words > 75);
+        }
+
         function handleBioSubmit(event) {
             event.preventDefault();
             const ppmVal = parseFloat(document.getElementById('ppmInput').value);
             const explanation = document.getElementById('explanationInput').value.toLowerCase();
-            const words = explanation.trim() === '' ? 0 : explanation.trim().split(/\s+/).length;
+            const words = countWords(explanation);
 
+            // 0.05 ppm x 10 x 10 x 10 = 50 ppm
             const isMathCorrect = Math.abs(ppmVal - 50.0) <= 1.0;
-            const requiredKeywords = ["biomagnification", "trophic", "accumulat"];
-            const hasKeywords = requiredKeywords.every(kw => explanation.includes(kw));
+            const hasKeywords = ["biomagnification", "trophic", "accumulat"].every(kw => explanation.includes(kw));
             const isConcise = words >= 10 && words <= 75;
 
             const resultEl = document.getElementById('bossResult');
             resultEl.classList.remove('hidden');
 
             if (isMathCorrect && hasKeywords && isConcise) {
-                // Add username to cloud solvers list automatically upon success
-                const username = getPlayerUsername();
-                if (typeof window.publishSolverToCloud === 'function') {
-                    window.publishSolverToCloud(username);
-                }
-
-                // Render success solvers list view
-                const successListEl = document.getElementById('successSolversList');
-                successListEl.innerHTML = '';
-                const solvers = typeof window.getHallOfFameSolvers === 'function' ? window.getHallOfFameSolvers() : [];
-                solvers.forEach((name) => {
-                    const item = document.createElement('div');
-                    item.className = 'flex items-center justify-between p-2 rounded bg-noir-800 border border-noir-700';
-                    item.innerHTML = `
-                        <span class="text-amberGold font-bold flex items-center gap-2">
-                            <i class="fa-solid fa-award"></i> ${name}
-                        </span>
-                        <span class="text-xs text-emeraldBio">SOLVER</span>
-                    `;
-                    successListEl.appendChild(item);
-                });
-
-                // Instantly transition to the Solvers of the Impossible screen
+                window.publishSolverToCloud(getPlayerUsername());
+                renderSolversList();
                 showStage('stageSolverSuccess');
             } else {
                 resultEl.className = "p-4 rounded-xl border border-crimsonAlert bg-crimsonAlert/10 text-crimsonAlert font-courier text-sm";
                 resultEl.innerText = "Incorrect.";
-
-                // Instantly advance straight to accusation stage without getting stuck
-                setTimeout(() => {
-                    showStage('stageAccusation');
-                }, 1200);
+                setTimeout(() => showStage('stageAccusation'), 1200);
             }
         }
 
-        function renderSolversList() {
-            const listEl = document.getElementById('solversList');
-            if (!listEl) return;
-            listEl.innerHTML = '';
-            
-            const solvers = typeof window.getHallOfFameSolvers === 'function' ? window.getHallOfFameSolvers() : [];
-            
-            if (solvers.length === 0) {
-                listEl.innerHTML = `<div class="text-center text-gray-500 italic py-3 font-courier text-xs">No solvers yet. Pass the final riddle to etch your name in history!</div>`;
-                return;
-            }
-
-            solvers.forEach((name) => {
-                const item = document.createElement('div');
-                item.className = 'flex items-center justify-between p-2 rounded bg-noir-800 border border-noir-700';
-                item.innerHTML = `
-                    <span class="text-amberGold font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-award"></i> ${name}
-                    </span>
-                    <span class="text-xs text-emeraldBio">SOLVER</span>
-                `;
-                listEl.appendChild(item);
-            });
-        }
-
-        // Notebook Modal & Tabs Logic
+        // ---------- Notebook ----------
         function updateBadgeCount() {
-            const count = Object.keys(notebookClues).length;
-            document.getElementById('clueBadgeCount').innerText = `${count}/10`;
+            document.getElementById('clueBadgeCount').innerText = `${Object.keys(notebookClues).length}/10`;
         }
 
         function toggleNotebookModal() {
@@ -1023,6 +933,9 @@
             modal.classList.toggle('hidden');
             if (!modal.classList.contains('hidden')) {
                 renderNotebookTabs();
+                const resetView = document.getElementById('notebookDetailView');
+                resetView.className = "p-5 rounded-xl border border-noir-700 bg-noir-900 flex items-center justify-center text-center text-gray-500 font-courier text-sm";
+                resetView.innerText = "Select a riddle tab to read its clue.";
             }
         }
 
@@ -1034,7 +947,7 @@
                 const btn = document.createElement('button');
                 const hasClue = notebookClues[i];
                 btn.className = `px-3 py-1.5 rounded-lg font-courier text-xs font-bold border transition flex items-center gap-1.5 ${
-                    hasClue 
+                    hasClue
                         ? (hasClue.isClean ? 'bg-emeraldBio/20 border-emeraldBio text-emeraldBio' : 'bg-crimsonAlert/20 border-crimsonAlert text-crimsonAlert')
                         : 'bg-noir-900 border-noir-700 text-gray-500 hover:border-gray-500'
                 }`;
@@ -1054,18 +967,13 @@
                 return;
             }
 
-            if (clueData.isClean) {
-                detailView.className = "clean-clue p-5 rounded-xl text-left font-courier text-sm leading-relaxed space-y-2";
-                detailView.innerHTML = `<span class="text-xs uppercase tracking-wider block opacity-75">Notebook Entry # ${qId} [VERIFIED CLEAN CLUE]</span><p>${clueData.clueText}</p>`;
-            } else {
-                detailView.className = "corrupted-text p-5 rounded-xl text-left font-courier text-sm leading-relaxed space-y-2";
-                detailView.innerHTML = `<span class="text-xs uppercase tracking-wider block opacity-75">Notebook Entry # ${qId} [CORRUPTED CLUE]</span><p>${clueData.clueText}</p>`;
-            }
+            const label = clueData.isClean ? 'VERIFIED CLEAN CLUE' : 'CORRUPTED CLUE';
+            detailView.className = `${clueData.isClean ? 'clean-clue' : 'corrupted-text'} p-5 rounded-xl text-left font-courier text-sm leading-relaxed space-y-2`;
+            detailView.innerHTML = `<span class="text-xs uppercase tracking-wider block opacity-75">Notebook Entry # ${qId} [${label}]</span><p>${escapeHtml(clueData.clueText)}</p>`;
         }
 
-        // Accusation & Verdict Logic
+        // ---------- Accusation & verdict ----------
         function selectSuspect(suspectId) {
-            showStage('stageVerdict');
             const winDiv = document.getElementById('verdictWin');
             const loseDiv = document.getElementById('verdictLose');
 
@@ -1077,6 +985,7 @@
                 winDiv.classList.add('hidden');
                 loseDiv.classList.remove('hidden');
             }
+            showStage('stageVerdict');
         }
 
         function confirmRestart() {
@@ -1088,11 +997,16 @@
         function restartGame() {
             currentQuestionIndex = 0;
             notebookClues = {};
+            updateBadgeCount();
             document.getElementById('usernameInput').value = "Agent Bio";
             document.getElementById('ppmInput').value = "";
             document.getElementById('explanationInput').value = "";
+            updateWordCount();
             document.getElementById('bossResult').classList.add('hidden');
             document.getElementById('openNotebookBtn').classList.add('hidden');
+            document.getElementById('notebookModal').classList.add('hidden');
+            document.getElementById('verdictWin').classList.add('hidden');
+            document.getElementById('verdictLose').classList.add('hidden');
             showStage('stageIntro');
         }
     </script>
