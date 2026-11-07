@@ -549,16 +549,17 @@
     <!-- Firebase (hall of fame) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        let firebaseConfig = {};
-        try {
-            firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        } catch (e) {
-            console.warn("Invalid Firebase config; running in local mode.");
-        }
+        const firebaseConfig = {
+            apiKey: "AIzaSyChdf85cI1yybPXtN2ZwJKqUhmzzL5j-hk",
+            authDomain: "the-web-of-life-47c07.firebaseapp.com",
+            projectId: "the-web-of-life-47c07",
+            storageBucket: "the-web-of-life-47c07.firebasestorage.app",
+            messagingSenderId: "980324133903",
+            appId: "1:980324133903:web:2097ad2e6046a7e3cec77a"
+        };
 
         let db = null;
         let solvers = [];
@@ -567,39 +568,27 @@
             if (typeof window.renderSolversList === 'function') window.renderSolversList();
         };
 
-        function solversDocRef() {
-            return doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame_global');
-        }
+        // 6 segments = a valid document path
+        const solversDocRef = () => doc(db, 'artifacts', 'web-of-life', 'public', 'data', 'hall_of_fame', 'global');
 
         async function initFirebase() {
             try {
-                if (Object.keys(firebaseConfig).length === 0) {
-                    console.warn("Firebase config not available. Running in local mode.");
-                    return;
-                }
                 const app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
-                const auth = getAuth(app);
-
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                await signInAnonymously(getAuth(app));
 
                 const snap = await getDoc(solversDocRef());
                 if (snap.exists()) {
                     solvers = snap.data().solvers || [];
                     refresh();
                 }
-
                 onSnapshot(solversDocRef(), (docSnap) => {
                     solvers = docSnap.exists() ? (docSnap.data().solvers || []) : [];
                     refresh();
-                }, (error) => console.error("Firestore snapshot error:", error));
+                }, (err) => console.error("Snapshot error:", err));
             } catch (err) {
-                console.error("Firebase init error:", err);
-                db = null; // fall back to local mode
+                console.error("Firebase init error (running in local mode):", err);
+                db = null;
             }
         }
 
@@ -608,7 +597,7 @@
             refresh();
             if (!db) return;
             try {
-                await setDoc(solversDocRef(), { solvers }, { merge: true });
+                await setDoc(solversDocRef(), { solvers: arrayUnion(username) }, { merge: true });
             } catch (err) {
                 console.error("Error publishing solver:", err);
             }
@@ -616,7 +605,6 @@
 
         window.getHallOfFameSolvers = () => solvers;
 
-        // Modules run after the document is parsed, so no DOMContentLoaded wait is needed.
         initFirebase();
     </script>
 
