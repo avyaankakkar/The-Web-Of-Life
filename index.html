@@ -605,7 +605,7 @@
         function setupRealtimeSolvers() {
             if (!db) return;
             // RULE 1: Use strictly /artifacts/{appId}/public/data/{collectionName}
-            const solversRef = doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame');
+            const solversRef = doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame_global');
             onSnapshot(solversRef, (docSnap) => {
                 if (docSnap.exists()) {
                     hallOfFameSolvers = docSnap.data().solvers || [];
@@ -630,7 +630,7 @@
                 if (!hallOfFameSolvers.includes(username)) {
                     hallOfFameSolvers.unshift(username);
                 }
-                const solversRef = doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame');
+                const solversRef = doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame_global');
                 await setDoc(solversRef, { solvers: hallOfFameSolvers }, { merge: true });
             } catch (err) {
                 console.error("Error publishing solver:", err);
