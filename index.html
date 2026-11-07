@@ -594,6 +594,8 @@
                     }
                     userId = auth.currentUser?.uid || crypto.randomUUID();
                     setupRealtimeSolvers();
+                } else {
+                    console.warn("Firebase config not available. Running in local mode.");
                 }
             } catch (err) {
                 console.error("Firebase init error:", err);
@@ -602,6 +604,7 @@
 
         function setupRealtimeSolvers() {
             if (!db) return;
+            // RULE 1: Use strictly /artifacts/{appId}/public/data/{collectionName}
             const solversRef = doc(db, 'artifacts', appId, 'public', 'data', 'hall_of_fame');
             onSnapshot(solversRef, (docSnap) => {
                 if (docSnap.exists()) {
@@ -620,6 +623,7 @@
                 if (!hallOfFameSolvers.includes(username)) {
                     hallOfFameSolvers.unshift(username);
                 }
+                renderSolversList();
                 return;
             }
             try {
