@@ -516,12 +516,10 @@
                         Your accusation fell flat, and the real criminal slipped away into the web of life. Review the notebook clues once more and try again.
                     </p>
                 </div>
-                <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                    <button onclick="showStage('stageAccusation')" class="bg-amberGold hover:bg-amber-400 text-noir-900 font-bold px-8 py-3 rounded-xl shadow-lg transition">
-                        Accuse Someone Else
-                    </button>
-                    <button onclick="restartGame()" class="bg-noir-700 hover:bg-noir-600 border border-noir-600 text-gray-200 font-bold px-8 py-3 rounded-xl shadow-lg transition">
-                        Restart Timeline
+                <div class="flex justify-center">
+                    <button onclick="timeTravel()" class="bg-amberGold hover:bg-amber-400 text-noir-900 font-bold px-8 py-3 rounded-xl shadow-lg transition flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span>Time Travel?</span>
                     </button>
                 </div>
             </div>
@@ -974,6 +972,18 @@
                 loseDiv.classList.remove('hidden');
             }
             showStage('stageVerdict');
+        }
+
+        // Wrong accusation: rewind and redo all 10 riddles (username is kept)
+        function timeTravel() {
+            document.getElementById('ppmInput').value = "";
+            document.getElementById('explanationInput').value = "";
+            updateWordCount();
+            document.getElementById('bossResult').classList.add('hidden');
+            document.getElementById('notebookModal').classList.add('hidden');
+            document.getElementById('verdictWin').classList.add('hidden');
+            document.getElementById('verdictLose').classList.add('hidden');
+            startRiddles();
         }
 
         function confirmRestart() {
