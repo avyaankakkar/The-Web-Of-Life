@@ -974,16 +974,9 @@
             showStage('stageVerdict');
         }
 
-        // Wrong accusation: rewind and redo all 10 riddles (username is kept)
+        // Wrong accusation: send the player all the way back to the beginning
         function timeTravel() {
-            document.getElementById('ppmInput').value = "";
-            document.getElementById('explanationInput').value = "";
-            updateWordCount();
-            document.getElementById('bossResult').classList.add('hidden');
-            document.getElementById('notebookModal').classList.add('hidden');
-            document.getElementById('verdictWin').classList.add('hidden');
-            document.getElementById('verdictLose').classList.add('hidden');
-            startRiddles();
+            restartGame();
         }
 
         function confirmRestart() {
